@@ -7,8 +7,10 @@ A Python wrapper for the TurtleCoin walletd JSON-RPC interface
 
 TODO:
 
-- Creating/sending delayed transactions
-- Fusion transactions
+- Figure out how to pass extra and unlockTime to sendTransaction
+- Creating address from a spend key doesnt work
+- Implement creating/sending delayed transactions
+- Implement Fusion transactions
 
 Quickstart
 ----------
@@ -44,7 +46,7 @@ wallet.delete_address(address)
 
 Sending a transaction:
 
-```
+```python
 wallet = TurtleCoinWallet(password='test')
 
 # transfer 10.00 TRTL to destination_address

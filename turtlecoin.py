@@ -111,7 +111,7 @@ class TurtleCoinWallet:
                   'paymentId': payment_id}
         return self._make_request('getTransactionHashes', **kwargs)
 
-    def send_transaction(self, anonymity, transfers, fee, source_addresses='',
+    def send_transaction(self, anonymity, transfers, fee=10, source_addresses='',
                          change_address='', extra='', payment_id='', unlock_time=''):
         """
         Send a transaction to one or multiple addresses.
@@ -125,7 +125,7 @@ class TurtleCoinWallet:
         Params:
             anonymity: mixin amount
             transfers: address where to send the funds to. (address, amount)
-            fee: transaction fee
+            fee: transaction fee (default 100 (0.1 TRTL))
             source_addresses: addresses from which to take the funds from.
             change_address: address where to send the change to.
             extra: ...
@@ -144,14 +144,14 @@ class TurtleCoinWallet:
             {'transactionHash': '1b87a........'}
 
         """
-        kwargs = {#'sourceAddresses': source_addresses,
+        kwargs = {'sourceAddresses': source_addresses,
                   'transfers': transfers,
-                  #'changeAddress': change_address,
+                  'changeAddress': change_address,
                   'fee': fee,
                   'anonymity': anonymity,
                   #'extra': extra,
-                  #'paymentId': payment_id,
-                  #'unlockTime': unlock_time}
+                  'paymentId': payment_id,
+                  #'unlockTime': unlock_time
                   }
         return self._make_request('sendTransaction', **kwargs)
 
@@ -194,32 +194,5 @@ class TurtleCoinWallet:
 ### FOllowing code is for debugging
 
 # initialize wallet
-# wallet = TurtleCoinWallet(password='test')
-# import ipdb; ipdb.set_trace()
-
-# create a new address
-#print(wallet.create_address())
-
-# create a new spend address from secret key
-#print(wallet.create_address(spend_secret_key='5dd6d60b02927512a1acefd9814672fad757114cc21b794de8105a072f0e0b05'))
-
-# create a new spend address from public key
-# XXX doesnt work: application_code': 22}, 'message': 'Wrong parameters passed
-#print(wallet.create_address(spend_public_key='0a5295482ac8a921090113679ce11052aa4934081ced3d375e6fa59e9998a58e'))
-
-# print all addresses in this wallet
-#addrs = wallet.get_addresses()
-#print(addrs)
-
-# print spend keys for first address
-# print(addrs[0])
-# print(wallet.get_spend_keys(addrs[0]))
-
-# delete all addresses
-# for a in addrs:
-#     print(wallet.delete_address(a))
-
-#print(wallet.get_view_key())
-#print(wallet.get_spend_keys(address=addr))
-# print(wallet.get_transaction_hashes(10, 0, block_hash='7fb97df81221dd1366051b2d0bc7f49c66c22ac4431d879c895b06d66ef66f4c',
-#                                     addresses=[], payment_id=1))
+#wallet = TurtleCoinWallet(password='test')
+#import ipdb; ipdb.set_trace()
