@@ -30,7 +30,25 @@ class TurtleCoinWallet:
         kwargs = {'fileName': file_name}
         return self._make_request('export', **kwargs)
 
-    def get_balance(self, address=None):
+    def get_balance(self, address=''):
+        """
+        Returns the balance.
+
+        Note:
+            Amount needs to be divided by 100 to get decimal places.
+            If balance returned is 1000 it means 10.00 TRTL
+
+        Args:
+            address (str): The address for which to return the balance
+
+        Returns:
+            dict: available balance (int) and locked amount (int)
+
+                {
+                    'availableBalance': 1000,
+                    'lockedAmount': 0
+                }
+        """
         kwargs = {'address': address}
         return self._make_request('getBalance', **kwargs)
 
@@ -93,17 +111,49 @@ class TurtleCoinWallet:
                   'paymentId': payment_id}
         return self._make_request('getTransactionHashes', **kwargs)
 
-    # def send_transaction(self, source_addresses, transfers, change_address,
-    #                      fee, anonymity, extra, payment_id, unlock_time):
-    #     kwargs = {'sourceAddresses': source_addresses,
-    #               'transfers': transfers,
-    #               'changeAddress': change_address,
-    #               'fee': fee,
-    #               'anonymity': anonymity,
-    #               'extra': extra,
-    #               'paymentId': payment_id,
-    #               'unlockTime': unlock_time}
-    #     self._make_request('sendTransaction', **kwargs)
+    def send_transaction(self, anonymity, transfers, fee, source_addresses='',
+                         change_address='', extra='', payment_id='', unlock_time=''):
+        """
+        Send a transaction to one or multiple addresses.
+
+        Note:
+            The amount/fee need to be multiplied by 100 to get TRTL amount.
+
+            If you want to transfer 10 TRTL with a fee of 0.1 TRLT you should
+            set transfer amount to 1000 and fee to 10
+
+        Params:
+            anonymity: mixin amount
+            transfers: address where to send the funds to. (address, amount)
+            fee: transaction fee
+            source_addresses: addresses from which to take the funds from.
+            change_address: address where to send the change to.
+            extra: ...
+            payment_id: can be given to receiver to identify transaction
+            unlock_time: ...
+
+
+        Example:
+            >>> wallet.send_transaction(
+                anonymity=3,
+                transfers=[
+                    {'address': 'TRTL...', 
+                     'amount': 500}],
+                fee=10
+            )
+            {'transactionHash': '1b87a........'}
+
+        """
+        kwargs = {#'sourceAddresses': source_addresses,
+                  'transfers': transfers,
+                  #'changeAddress': change_address,
+                  'fee': fee,
+                  'anonymity': anonymity,
+                  #'extra': extra,
+                  #'paymentId': payment_id,
+                  #'unlockTime': unlock_time}
+                  }
+        return self._make_request('sendTransaction', **kwargs)
 
     # def create_delayed_transaction(self, addresses, transfers, change_address,
     #                                fee, anonymity, extra, payment_id,
@@ -144,7 +194,8 @@ class TurtleCoinWallet:
 ### FOllowing code is for debugging
 
 # initialize wallet
-#wallet = TurtleCoinWallet()
+# wallet = TurtleCoinWallet(password='test')
+# import ipdb; ipdb.set_trace()
 
 # create a new address
 #print(wallet.create_address())
