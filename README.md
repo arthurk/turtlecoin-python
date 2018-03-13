@@ -7,7 +7,8 @@ A Python wrapper for the TurtleCoin walletd JSON-RPC interface
 
 TODO:
 
-- Creating/Deleting Transactions
+- Creating/sending delayed transactions
+- Fusion transactions
 
 Quickstart
 ----------
@@ -40,3 +41,21 @@ wallet.get_spend_keys(address)
 
 wallet.delete_address(address)
 ```
+
+Sending a transaction:
+
+```
+wallet = TurtleCoinWallet(password='test')
+
+# transfer 10.00 TRTL to destination_address
+recipents = [{'address': destination_address, 'amount': 1000}]
+
+# mixin/anonymity is 3 and fee is 0.1 TRTL
+wallet.send_transaction(
+    anonymity=3,
+    transfers=recipents,
+    fee=10
+)
+```
+
+Sending a transaction will return a transactionHash. You can enter it on the https://turtle-coin.com block explorer to see more details.
