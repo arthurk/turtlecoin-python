@@ -47,7 +47,8 @@ wallet.get_spend_keys(address)
 wallet.delete_address(address)
 ```
 
-Sending a transaction:
+Transactions
+------------
 
 ```python
 wallet = TurtleCoinWallet(password='test')
@@ -71,7 +72,7 @@ Delayed Transactions
 
 ```python
 # Create a delayed transaction
->>> wallet.create_delayed_transaction(
+tx_hash = wallet.create_delayed_transaction(
     anonymity=3,
     transfers=[
         {
@@ -80,14 +81,13 @@ Delayed Transactions
         }
     ]
 )
-'bfcc4735a975f0ac0c27806b7abf9107adbd7a8a0c7c8ea91ca363eacda7f79x'
 
 # List all delayed transactions
->>> wallet.get_delayed_transaction_hashes()
-['bfcc4735a975f0ac0c27806b7abf9107adbd7a8a0c7c8ea91ca363eacda7f79x']
+wallet.get_delayed_transaction_hashes()
+# ['bfcc4735a975f0ac0c27806b7abf9107adbd7a8a0c7c8ea91ca363eacda7f79x']
 
 # Send delayed transaction
->>> wallet.send_delayed_transaction('bfcc4735a975f0ac0c27806b7abf9107adbd7a8a0c7c8ea91ca363eacda7f79x')
+wallet.send_delayed_transaction(tx_hash)
 ```
 
 Developer setup
