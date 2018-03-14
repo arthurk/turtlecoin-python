@@ -3,6 +3,8 @@ turtlecoin-walletd-rpc-python
 
 A Python wrapper for the TurtleCoin walletd JSON-RPC interface
 
+Requires Python 3.6
+
 *In development*
 
 TODO:
@@ -11,6 +13,9 @@ TODO:
 - Creating address from a spend key doesnt work
 - Implement creating/sending delayed transactions
 - Implement Fusion transactions
+
+- Add documentation
+- Add tests
 
 Quickstart
 ----------
@@ -61,3 +66,36 @@ wallet.send_transaction(
 ```
 
 Sending a transaction will return a transactionHash. You can enter the hash on the https://turtle-coin.com block explorer to see more details.
+
+Delayed Transactions
+--------------------
+
+```python
+# Create a delayed transaction
+>>> wallet.create_delayed_transaction(
+    anonymity=3,
+    transfers=[
+        {
+            'address': 'TRTL...',
+            'amount': 50
+        }
+    ]
+)
+'2204ed95ec9...'
+
+# List all delayed transactions
+>>> wallet.get_delayed_transaction_hashes()
+['2204ed95ec9...']
+
+# Send delayed transaction
+>>> wallet.send_delayed_transaction('2204ed95ec9...')
+```
+
+Developer setup
+---------------
+
+Install dependencies with pipenv:
+
+```
+pipenv install
+```

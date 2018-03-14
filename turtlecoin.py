@@ -93,8 +93,6 @@ class TurtleCoinWallet:
         kwargs = {'addresses': addresses}
         return self._make_request('getUnconfirmedTransactionHashes', **kwargs)
 
-    def get_delayed_transaction_hashes(self):
-        return self._make_request('getDelayedTransactionHashes')
 
     def create_address(self, spend_secret_key='', spend_public_key=''):
         kwargs = {'spendSecretKey': spend_secret_key}
@@ -136,7 +134,7 @@ class TurtleCoinWallet:
         return self._make_request('getTransactionHashes', **kwargs)
 
     def send_transaction(self, anonymity, transfers, fee=10, source_addresses='',
-                         change_address='', extra='', payment_id='', unlock_time=''):
+                         change_address='', extra='', payment_id='', unlock_time=0):
         """
         Send a transaction to one or multiple addresses.
 
@@ -169,6 +167,9 @@ class TurtleCoinWallet:
 
         binascii.hexlify(b'TUT TUT').decode()
 
+        payment_id key should not be present in kwargs dict if
+        extra is passed too
+
         """
         if payment_id and extra:
             raise ValueError('payment_id and extra cannot be set together')
@@ -180,31 +181,61 @@ class TurtleCoinWallet:
                   'anonymity': anonymity,
                   'paymentId': payment_id,
                   #'extra': extra,
-                  #'unlockTime': unlock_time
-                  }
-
+                  'unlockTime': unlock_time}
         return self._make_request('sendTransaction', **kwargs)
 
-    # def create_delayed_transaction(self, addresses, transfers, change_address,
-    #                                fee, anonymity, extra, payment_id,
-    #                                unlock_time):
-    #     kwargs = {'addresses': addresses,
-    #               'transfers': transfers,
-    #               'changeAddress': change_address,
-    #               'fee': fee,
-    #               'anonymity': anonymity,
-    #               'extra': extra,
-    #               'paymentId': payment_id,
-    #               'unlockTime': unlock_time}
-    #     self._make_request('sendTransaction', **kwargs)
+    def get_delayed_transaction_hashes(self):
+        """
+        Returns a list of delayed transaction hashes
+        """
+        r = self._make_request('getDelayedTransactionHashes')
+        return r['transactionHashes']
 
-    # def delete_delayed_transaction(self, transaction_hash):
-    #     kwargs = {'transactionHash': transaction_hash}
-    #     self._make_request('deleteDelayedTransaction', **kwargs)
+    def create_delayed_transaction(self, anonymity, transfers, fee=10, source_addresses='',
+                         change_address='', extra='', payment_id='', unlock_time=0):
+        kwargs = {'sourceAddresses': source_addresses,
+                  'transfers': transfers,
+                  'changeAddress': change_address,
+                  'fee': fee,
+                  'anonymity': anonymity,
+                  'paymentId': payment_id,
+                  #'extra': extra,
+                  'unlockTime': unlock_time}
+        r = self._make_request('createDelayedTransaction', **kwargs)
+        return r['transactionHash']
 
-    # def send_delayed_transaction(self, transaction_hash):
-    #     kwargs = {'transactionHash': transaction_hash}
-    #     self._make_request('sendDelayedTransaction', **kwargs)
+    def send_delayed_transaction(self, transaction_hash):
+        """
+        Send a delayed transaction
+
+        Example:
+
+            >>> wallet.send_delayed_transaction('8dea3...')
+
+        Raises:
+            If the delayed tx is not valid:
+
+            ValueError: {
+                'code': -32000,
+                'data': {'application_code': 15},
+                'message': 'Transaction transfer impossible'
+            }
+        """
+        kwargs = {'transactionHash': transaction_hash}
+        self._make_request('sendDelayedTransaction', **kwargs)
+        return True
+
+    def delete_delayed_transaction(self, transaction_hash):
+        """
+        Delete a delayed transaction
+
+        Example:
+
+            >>> wallet.delete_delayed_transaction('8dea3....')
+        """
+        kwargs = {'transactionHash': transaction_hash}
+        self._make_request('deleteDelayedTransaction', **kwargs)
+        return True
 
     # def send_fusion_transaction(self, threshold, anonymity, addresses,
     #                             destination_address):
@@ -220,8 +251,7 @@ class TurtleCoinWallet:
     #     self._make_request('estimateFusion', **kwargs)
 
 
-
-### FOllowing code is for debugging
+### Following code is for debugging
 
 # initialize wallet
 # wallet = TurtleCoinWallet(password='test')
