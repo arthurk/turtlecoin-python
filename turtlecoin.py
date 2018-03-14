@@ -7,10 +7,22 @@ import requests
 def generate_payment_id():
     """
     Generate a random payment_id for transactions
-
-    A payment_id is a string consisting of 64 hexadecimal characters
     """
     return ''.join(random.choices(string.hexdigits, k=64)).lower()
+
+
+def format_amount(amount):
+    """
+    Format amount into user-friendly format
+    """
+    return float(amount/100)
+
+
+def parse_amount(amount):
+    """
+    Format amount from user-friendly format to internal representation
+    """
+    return int(amount*100)
 
 
 class TurtleCoinWallet:
@@ -212,5 +224,5 @@ class TurtleCoinWallet:
 ### FOllowing code is for debugging
 
 # initialize wallet
-#wallet = TurtleCoinWallet(password='test')
+# wallet = TurtleCoinWallet(password='test')
 # import ipdb; ipdb.set_trace()
