@@ -49,15 +49,15 @@ Sending a transaction:
 ```python
 wallet = TurtleCoinWallet(password='test')
 
-# transfer 10.00 TRTL to destination_address
-recipents = [{'address': destination_address, 'amount': 1000}]
+# transfer 10.00 TRTL
+recipients = [{'address': destination_address, 'amount': 1000}]
 
 # mixin/anonymity is 3 and fee is 0.1 TRTL
 wallet.send_transaction(
     anonymity=3,
-    transfers=recipents,
+    transfers=recipients,
     fee=10
 )
 ```
 
-Sending a transaction will return a transactionHash. You can enter it on the https://turtle-coin.com block explorer to see more details.
+Sending a transaction will return a transactionHash. You can enter the hash on the https://turtle-coin.com block explorer to see more details.

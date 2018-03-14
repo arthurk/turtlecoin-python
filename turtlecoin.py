@@ -1,5 +1,16 @@
 import json
+import string
+import random
 import requests
+
+
+def generate_payment_id():
+    """
+    Generate a random payment_id for transactions
+
+    A payment_id is a string consisting of 64 hexadecimal characters
+    """
+    return ''.join(random.choices(string.hexdigits, k=64)).lower()
 
 
 class TurtleCoinWallet:
@@ -16,6 +27,7 @@ class TurtleCoinWallet:
             "id": 0,
             "params": kwargs
         }
+        print(json.dumps(payload, indent=4))
         response = requests.post(self.url,
                                  data=json.dumps(payload),
                                  headers=self.headers).json()
@@ -143,16 +155,22 @@ class TurtleCoinWallet:
             )
             {'transactionHash': '1b87a........'}
 
+        binascii.hexlify(b'TUT TUT').decode()
+
         """
+        if payment_id and extra:
+            raise ValueError('payment_id and extra cannot be set together')
+
         kwargs = {'sourceAddresses': source_addresses,
                   'transfers': transfers,
                   'changeAddress': change_address,
                   'fee': fee,
                   'anonymity': anonymity,
-                  #'extra': extra,
                   'paymentId': payment_id,
+                  #'extra': extra,
                   #'unlockTime': unlock_time
                   }
+
         return self._make_request('sendTransaction', **kwargs)
 
     # def create_delayed_transaction(self, addresses, transfers, change_address,
@@ -195,4 +213,4 @@ class TurtleCoinWallet:
 
 # initialize wallet
 #wallet = TurtleCoinWallet(password='test')
-#import ipdb; ipdb.set_trace()
+# import ipdb; ipdb.set_trace()
