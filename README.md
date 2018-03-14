@@ -5,17 +5,15 @@ A Python wrapper for the TurtleCoin walletd JSON-RPC interface
 
 Requires Python 3.6
 
-*In development*
+**In development**
 
 TODO:
 
-- Figure out how to pass extra and unlockTime to sendTransaction
-- Creating address from a spend key doesnt work
-- Implement creating/sending delayed transactions
-- Implement Fusion transactions
-
-- Add documentation
-- Add tests
+* send_transaction: prevent payment_id being sent when extra is set
+* create_address: creating address from a spend key doesnt work
+* Implement Fusion transactions (send/estimate)
+* Add documentation (sphinx)
+* Add tests
 
 Quickstart
 ----------
@@ -63,6 +61,7 @@ wallet.send_transaction(
     transfers=recipients,
     fee=10
 )
+'aebb47d5a975f0ac0c27806b7abf9107adbd7a8a0c7c8ea91ca363eacda7f79x'
 ```
 
 Sending a transaction will return a transactionHash. You can enter the hash on the https://turtle-coin.com block explorer to see more details.
@@ -81,14 +80,14 @@ Delayed Transactions
         }
     ]
 )
-'2204ed95ec9...'
+'bfcc4735a975f0ac0c27806b7abf9107adbd7a8a0c7c8ea91ca363eacda7f79x'
 
 # List all delayed transactions
 >>> wallet.get_delayed_transaction_hashes()
-['2204ed95ec9...']
+['bfcc4735a975f0ac0c27806b7abf9107adbd7a8a0c7c8ea91ca363eacda7f79x']
 
 # Send delayed transaction
->>> wallet.send_delayed_transaction('2204ed95ec9...')
+>>> wallet.send_delayed_transaction('bfcc4735a975f0ac0c27806b7abf9107adbd7a8a0c7c8ea91ca363eacda7f79x')
 ```
 
 Developer setup

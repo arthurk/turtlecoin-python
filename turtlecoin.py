@@ -182,7 +182,8 @@ class TurtleCoinWallet:
                   'paymentId': payment_id,
                   #'extra': extra,
                   'unlockTime': unlock_time}
-        return self._make_request('sendTransaction', **kwargs)
+        r = self._make_request('sendTransaction', **kwargs)
+        return r['transactionHash']
 
     def get_delayed_transaction_hashes(self):
         """
