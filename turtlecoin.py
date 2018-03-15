@@ -1,8 +1,16 @@
 import json
 import string
 import binascii
+import logging
 import random
 import requests
+
+logger = logging.getLogger()
+handler = logging.StreamHandler()
+formatter = logging.Formatter('%(asctime)s %(levelname)-8s %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(logging.DEBUG)
 
 
 def generate_payment_id():
@@ -49,7 +57,7 @@ class TurtleCoinWallet:
             "id": 0,
             "params": kwargs
         }
-        print(json.dumps(payload, indent=4))
+        logging.debug(json.dumps(payload, indent=4))
         response = requests.post(self.url,
                                  data=json.dumps(payload),
                                  headers=self.headers).json()
@@ -302,7 +310,7 @@ class TurtleCoinD:
             "method": method,
             "params": kwargs
         }
-        print(json.dumps(payload, indent=4))
+        logging.debug(json.dumps(payload, indent=4))
         response = requests.post(self.url,
                                  data=json.dumps(payload),
                                  headers=self.headers).json()
@@ -334,6 +342,6 @@ class TurtleCoinD:
 
 
 ### Following code is for debugging
-#wallet = TurtleCoinWallet(password='test')
-# turtle = TurtleCoinD()
-# import ipdb; ipdb.set_trace()
+wallet = TurtleCoinWallet(password='test')
+turtle = TurtleCoinD()
+import ipdb; ipdb.set_trace()
