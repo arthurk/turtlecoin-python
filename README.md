@@ -1,7 +1,7 @@
-turtlecoin-walletd-rpc-python
+turtlecoin-python
 =============================
 
-A Python wrapper for the TurtleCoin walletd JSON-RPC interface
+A Python wrapper for the TurtleCoin JSON-RPC interface
 
 Requires Python 3.6
 

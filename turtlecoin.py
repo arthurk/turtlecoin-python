@@ -1,5 +1,6 @@
 import json
 import string
+import binascii
 import random
 import requests
 
@@ -23,6 +24,15 @@ def parse_amount(amount):
     Format amount from user-friendly format to internal representation
     """
     return int(amount*100)
+
+
+def convert_bytes_to_hex_str(data):
+    """
+    Converts binary data into its hexadecimal representation and return
+    it's decoded string. This can be used in the `extra` field when
+    sending a transaction
+    """
+    return binascii.hexlify(data).decode()
 
 
 class TurtleCoinWallet:
@@ -93,8 +103,17 @@ class TurtleCoinWallet:
         kwargs = {'addresses': addresses}
         return self._make_request('getUnconfirmedTransactionHashes', **kwargs)
 
-
     def create_address(self, spend_secret_key='', spend_public_key=''):
+        """
+        Create a new address
+
+        Args:
+            spend_secret_key (str)
+            spend_public_key (str)
+
+        Returns:
+            str: the hash of the new address
+        """
         kwargs = {'spendSecretKey': spend_secret_key}
         # kwargs = {'spendPublicKey': spend_public_key}
         return self._make_request('createAddress', **kwargs)
@@ -104,6 +123,15 @@ class TurtleCoinWallet:
         return self._make_request('createAddressList', **kwargs)
 
     def delete_address(self, address):
+        """
+        Delete address from wallet
+
+        Args:
+            address (str): the address to delete
+
+        Returns:
+            bool: True if successful
+        """
         kwargs = {'address': address}
         self._make_request('deleteAddress', **kwargs)
         return True
@@ -165,14 +193,16 @@ class TurtleCoinWallet:
             )
             {'transactionHash': '1b87a........'}
 
-        binascii.hexlify(b'TUT TUT').decode()
 
         payment_id key should not be present in kwargs dict if
         extra is passed too
-
         """
         if payment_id and extra:
             raise ValueError('payment_id and extra cannot be set together')
+
+        # convert extra data to hexadecimal representation
+        if extra:
+            extra = convert_bytes_to_hex_str(extra)
 
         kwargs = {'sourceAddresses': source_addresses,
                   'transfers': transfers,
