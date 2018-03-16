@@ -107,7 +107,7 @@ class TurtleCoinWallet:
         kwargs = {'address': address}
         return self._make_request('getSpendKeys', **kwargs)
 
-    def get_unconfirmed_transaction_hashes(self, addresses=None):
+    def get_unconfirmed_transaction_hashes(self, addresses=[]):
         kwargs = {'addresses': addresses}
         return self._make_request('getUnconfirmedTransactionHashes', **kwargs)
 
@@ -276,18 +276,29 @@ class TurtleCoinWallet:
         self._make_request('deleteDelayedTransaction', **kwargs)
         return True
 
-    # def send_fusion_transaction(self, threshold, anonymity, addresses,
-    #                             destination_address):
-    #     kwargs = {'threshold': threshold,
-    #               'anonymity': anonymity,
-    #               'addresses': addresses,
-    #               'destinationAddress': destination_address}
-    #     self._make_request('sendFusionTransaction', **kwargs)
+    def send_fusion_transaction(self, threshold, anonymity, addresses,
+                                destination_address):
+        """
+        Send a fusion transaction, by taking funds from selected addresses and
+        transferring them to the destination address.
 
-    # def estimate_fusion(self, threshold, addresses):
-    #     kwargs = {'threshold': threshold,
-    #               'addresses': addresses}
-    #     self._make_request('estimateFusion', **kwargs)
+        Returns:
+            str: hash of the sent transaction
+        """
+        kwargs = {'threshold': threshold,
+                  'anonymity': anonymity,
+                  'addresses': addresses,
+                  'destinationAddress': destination_address}
+        return self._make_request('sendFusionTransaction', **kwargs)
+
+    def estimate_fusion(self, threshold, addresses=[]):
+        """
+        Counts the number of unspent outputs of the specified addresses and
+        returns how many of those outputs can be optimized.
+        """
+        kwargs = {'threshold': threshold,
+                  'addresses': addresses}
+        return self._make_request('estimateFusion', **kwargs)
 
 
 class TurtleCoinD:
@@ -342,6 +353,6 @@ class TurtleCoinD:
 
 
 ### Following code is for debugging
-wallet = TurtleCoinWallet(password='test')
-turtle = TurtleCoinD()
-import ipdb; ipdb.set_trace()
+# wallet = TurtleCoinWallet(password='test')
+# turtle = TurtleCoinD()
+#import ipdb; ipdb.set_trace()
