@@ -1,5 +1,5 @@
 turtlecoin-python
-=============================
+=================
 
 A Python wrapper for the TurtleCoin JSON-RPC interface
 
@@ -9,9 +9,7 @@ Requires Python 3.6
 
 TODO:
 
-* send_transaction: prevent payment_id being sent when extra is set
 * create_address: creating address from a spend key doesnt work
-* Implement Fusion transactions (send/estimate)
 * Add documentation (sphinx)
 * Add tests
 
@@ -51,13 +49,13 @@ Transactions
 ------------
 
 ```python
-wallet = TurtleCoinWallet(password='test')
+>>> wallet = TurtleCoinWallet(password='test')
 
 # transfer 10.00 TRTL
-recipients = [{'address': destination_address, 'amount': 1000}]
+>>> recipients = [{'address': destination_address, 'amount': 1000}]
 
 # mixin/anonymity is 3 and fee is 0.1 TRTL
-wallet.send_transaction(
+>>> wallet.send_transaction(
     anonymity=3,
     transfers=recipients,
     fee=10
@@ -72,7 +70,7 @@ Delayed Transactions
 
 ```python
 # Create a delayed transaction
-tx_hash = wallet.create_delayed_transaction(
+>>> tx_hash = wallet.create_delayed_transaction(
     anonymity=3,
     transfers=[
         {
@@ -83,11 +81,11 @@ tx_hash = wallet.create_delayed_transaction(
 )
 
 # List all delayed transactions
-wallet.get_delayed_transaction_hashes()
-# ['bfcc4735a975f0ac0c27806b7abf9107adbd7a8a0c7c8ea91ca363eacda7f79x']
+>>> wallet.get_delayed_transaction_hashes()
+['bfcc4735a975f0ac0c27806b7abf9107adbd7a8a0c7c8ea91ca363eacda7f79x']
 
 # Send delayed transaction
-wallet.send_delayed_transaction(tx_hash)
+>>> wallet.send_delayed_transaction(tx_hash)
 ```
 
 Developer setup

@@ -169,8 +169,11 @@ class TurtleCoinWallet:
                   'paymentId': payment_id}
         return self._make_request('getTransactionHashes', **kwargs)
 
-    def send_transaction(self, anonymity, transfers, fee=10, source_addresses='',
-                         change_address='', extra='', payment_id='', unlock_time=0):
+    def send_transaction(self, anonymity, transfers, fee=10,
+                         source_addresses='',
+                         change_address='',
+                         extra='',
+                         payment_id='', unlock_time=0):
         """
         Send a transaction to one or multiple addresses.
 
@@ -186,41 +189,37 @@ class TurtleCoinWallet:
             fee: transaction fee (default 100 (0.1 TRTL))
             source_addresses: addresses from which to take the funds from.
             change_address: address where to send the change to.
-            extra: ...
+            extra (bytes): extra data to include
             payment_id: can be given to receiver to identify transaction
-            unlock_time: ...
-
+            unlock_time (int)
 
         Example:
             >>> wallet.send_transaction(
                 anonymity=3,
                 transfers=[
-                    {'address': 'TRTL...', 
+                    {'address': 'TRTL...',
                      'amount': 500}],
                 fee=10
             )
             {'transactionHash': '1b87a........'}
-
-
-        payment_id key should not be present in kwargs dict if
-        extra is passed too
         """
-        if payment_id and extra:
-            raise ValueError('payment_id and extra cannot be set together')
-
-        # convert extra data to hexadecimal representation
-        if extra:
-            extra = convert_bytes_to_hex_str(extra)
-
-        kwargs = {'sourceAddresses': source_addresses,
+        params = {'sourceAddresses': source_addresses,
                   'transfers': transfers,
                   'changeAddress': change_address,
                   'fee': fee,
                   'anonymity': anonymity,
-                  'paymentId': payment_id,
-                  #'extra': extra,
                   'unlockTime': unlock_time}
-        r = self._make_request('sendTransaction', **kwargs)
+
+        # payment_id and extra cannot be present at the same time
+        # either none of them is included, or one of them
+        if payment_id and extra:
+            raise ValueError('payment_id and extra cannot be set together')
+        elif payment_id:
+            params['payment_id'] = payment_id
+        elif extra:
+            params['extra'] = convert_bytes_to_hex_str(extra)
+
+        r = self._make_request('sendTransaction', **params)
         return r['transactionHash']
 
     def get_delayed_transaction_hashes(self):
@@ -350,9 +349,3 @@ class TurtleCoinD:
 
     # def getblockcount
     #{"error":{"code":-32603,"message":"JsonValue type is not ARRAY or OBJECT"},"id":"test","jsonrpc":"2.0"}
-
-
-### Following code is for debugging
-# wallet = TurtleCoinWallet(password='test')
-# turtle = TurtleCoinD()
-#import ipdb; ipdb.set_trace()
