@@ -11,6 +11,14 @@ TODO:
 
 * create_address: creating address from a spend key doesnt work
 
+Installation
+------------
+You can install the latest version from PyPI:
+
+```
+pip install turtlecoin
+```
+
 Quickstart
 ----------
 
