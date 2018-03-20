@@ -2,7 +2,7 @@
 
 import logging
 
-from turtlecoin.wallet import TurtleCoinWallet
+from turtlecoin import TurtleCoinWallet
 
 logger = logging.getLogger()
 handler = logging.StreamHandler()

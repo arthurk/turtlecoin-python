@@ -10,8 +10,6 @@ Requires Python 3.6
 TODO:
 
 * create_address: creating address from a spend key doesnt work
-* Add documentation (sphinx)
-* Add tests
 
 Quickstart
 ----------
@@ -32,7 +30,7 @@ Usage
 Example for creating and deleting an address:
 
 ```python
-import turtlecoin
+from turtlecoin import TurtleCoinWallet
 
 wallet = TurtleCoinWallet(password='test')
 
