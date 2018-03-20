@@ -1,49 +1,17 @@
 import json
-import string
-import binascii
 import logging
-import random
 import requests
 
-logger = logging.getLogger()
-handler = logging.StreamHandler()
-formatter = logging.Formatter('%(asctime)s %(levelname)-8s %(message)s')
-handler.setFormatter(formatter)
-logger.addHandler(handler)
-logger.setLevel(logging.DEBUG)
-
-
-def generate_payment_id():
-    """
-    Generate a random payment_id for transactions
-    """
-    return ''.join(random.choices(string.hexdigits, k=64)).lower()
-
-
-def format_amount(amount):
-    """
-    Format amount into user-friendly format
-    """
-    return float(amount/100)
-
-
-def parse_amount(amount):
-    """
-    Format amount from user-friendly format to internal representation
-    """
-    return int(amount*100)
-
-
-def convert_bytes_to_hex_str(data):
-    """
-    Converts binary data into its hexadecimal representation and return
-    it's decoded string. This can be used in the `extra` field when
-    sending a transaction
-    """
-    return binascii.hexlify(data).decode()
+from .utils import convert_bytes_to_hex_str
 
 
 class TurtleCoinWallet:
+    """
+    Integrates with Walletd RPC interface.
+
+    Run Walletd like this:
+        ./walletd -w test.wallet -p mypw --local --rpc-password test
+    """
     def __init__(self, password, host='127.0.0.1', port=8070):
         self.url = f'http://{host}:{port}/json_rpc'
         self.headers = {'content-type': 'application/json'}
@@ -305,54 +273,3 @@ class TurtleCoinWallet:
         kwargs = {'threshold': threshold,
                   'addresses': addresses}
         return self._make_request('estimateFusion', **kwargs)
-
-
-class TurtleCoinD:
-    """
-    Integrates with RPC interface of ./TurtleCoind
-
-    Note: You have to start with blockexplorer enabled:
-
-        ./TurtleCoind --enable_blockexplorer
-    """
-
-    def __init__(self, host='127.0.0.1', port=11898):
-        self.url = f'http://{host}:{port}/json_rpc'
-        self.headers = {'content-type': 'application/json'}
-
-    def _make_request(self, method, **kwargs):
-        payload = {
-            "jsonrpc": "2.0",
-            "id": 'test',
-            "method": method,
-            "params": kwargs
-        }
-        logging.debug(json.dumps(payload, indent=4))
-        response = requests.post(self.url,
-                                 data=json.dumps(payload),
-                                 headers=self.headers).json()
-        return response
-
-    def getcurrencyid(self):
-        return self._make_request('getcurrencyid')
-
-    def getlastblockheader(self):
-        return self._make_request('getlastblockheader')
-
-    def f_transaction_json(self, tx_hash):
-        params = {'hash': tx_hash}
-        return self._make_request('f_transaction_json', **params)
-
-    def f_blocks_list_json(self, height):
-        params = {'height': height}
-        return self._make_request('f_blocks_list_json', **params)
-
-    def f_block_json(self, block_hash):
-        params = {'hash': block_hash}
-        return self._make_request('f_block_json', **params)
-
-    def f_on_transactions_pool_json(self):
-        return self._make_request('f_on_transactions_pool_json')
-
-    # def getblockcount
-    #{"error":{"code":-32603,"message":"JsonValue type is not ARRAY or OBJECT"},"id":"test","jsonrpc":"2.0"}
