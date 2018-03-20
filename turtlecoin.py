@@ -170,9 +170,7 @@ class TurtleCoinWallet:
         return self._make_request('getTransactionHashes', **kwargs)
 
     def send_transaction(self, anonymity, transfers, fee=10,
-                         source_addresses='',
-                         change_address='',
-                         extra='',
+                         source_addresses='', change_address='', extra='',
                          payment_id='', unlock_time=0):
         """
         Send a transaction to one or multiple addresses.
@@ -229,17 +227,26 @@ class TurtleCoinWallet:
         r = self._make_request('getDelayedTransactionHashes')
         return r['transactionHashes']
 
-    def create_delayed_transaction(self, anonymity, transfers, fee=10, source_addresses='',
-                         change_address='', extra='', payment_id='', unlock_time=0):
-        kwargs = {'sourceAddresses': source_addresses,
+    def create_delayed_transaction(self, anonymity, transfers, fee=10,
+                                   source_addresses='', change_address='',
+                                   extra='', payment_id='', unlock_time=0):
+        params = {'sourceAddresses': source_addresses,
                   'transfers': transfers,
                   'changeAddress': change_address,
                   'fee': fee,
                   'anonymity': anonymity,
-                  'paymentId': payment_id,
-                  #'extra': extra,
                   'unlockTime': unlock_time}
-        r = self._make_request('createDelayedTransaction', **kwargs)
+
+        # payment_id and extra cannot be present at the same time
+        # either none of them is included, or one of them
+        if payment_id and extra:
+            raise ValueError('payment_id and extra cannot be set together')
+        elif payment_id:
+            params['payment_id'] = payment_id
+        elif extra:
+            params['extra'] = convert_bytes_to_hex_str(extra)
+
+        r = self._make_request('createDelayedTransaction', **params)
         return r['transactionHash']
 
     def send_delayed_transaction(self, transaction_hash):
