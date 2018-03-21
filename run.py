@@ -12,5 +12,5 @@ logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
 
 wallet = TurtleCoinWallet(password='test')
-balance = wallet.get_balance()
-print(balance)
+
+import ipdb; ipdb.set_trace()

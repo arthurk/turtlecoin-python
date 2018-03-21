@@ -34,22 +34,26 @@ class TurtleCoinWallet:
         return response['result']
 
     def save(self):
+        """
+        Save the wallet
+        """
         return self._make_request('save')
 
     def export(self, file_name):
-        kwargs = {'fileName': file_name}
-        return self._make_request('export', **kwargs)
+        params = {'fileName': file_name}
+        return self._make_request('export', **params)
 
     def get_balance(self, address=''):
         """
-        Returns the balance.
+        Returns the balance of an address
 
         Note:
             Amount needs to be divided by 100 to get decimal places.
             If balance returned is 1000 it means 10.00 TRTL
 
         Args:
-            address (str): The address for which to return the balance
+            address (str): (optional) The address for which to return
+                the balance. Must exist in this wallet.
 
         Returns:
             dict: available balance (int) and locked amount (int)
@@ -59,8 +63,8 @@ class TurtleCoinWallet:
                     'lockedAmount': 0
                 }
         """
-        kwargs = {'address': address}
-        return self._make_request('getBalance', **kwargs)
+        params = {'address': address}
+        return self._make_request('getBalance', **params)
 
     def get_status(self):
         return self._make_request('getStatus')
@@ -69,15 +73,46 @@ class TurtleCoinWallet:
         return self._make_request('getAddresses')['addresses']
 
     def get_view_key(self):
-        return self._make_request('getViewKey')
+        """
+        Returns the view key
+
+        Returns:
+            str: Private view key
+        """
+        return self._make_request('getViewKey')['viewSecretKey']
 
     def get_spend_keys(self, address):
-        kwargs = {'address': address}
-        return self._make_request('getSpendKeys', **kwargs)
+        """
+        Returns spend keys
+
+        Args:
+            address (str): Valid and existing in this container address
+
+        Returns:
+            dict: A dictionary with the secret and public spend keys
+
+            {
+                'spendPublicKey': '3550a41b004520030941183b7f3e5ec075042cdde492044ea5064e4a1d99a3ba',
+                'spendSecretKey': 'f66997b99f9a8444417f09b4bca710e7afe9285d581a5aa641cd4ac0b29f5d00'
+            }
+        """
+        params = {'address': address}
+        return self._make_request('getSpendKeys', **params)
 
     def get_unconfirmed_transaction_hashes(self, addresses=[]):
-        kwargs = {'addresses': addresses}
-        return self._make_request('getUnconfirmedTransactionHashes', **kwargs)
+        """
+        Returns the current unconfirmed transaction pool for addresses
+
+        Args:
+            addresses (list): (optional) List of addresses.
+                If not set, all addresses of this wallet will be used.
+
+        Returns:
+            list: Hashes of unconfirmed transactions
+        """
+        params = {'addresses': addresses}
+        r = self._make_request('getUnconfirmedTransactionHashes', **params)
+        return r['transactionHashes']
 
     def create_address(self, spend_secret_key='', spend_public_key=''):
         """
@@ -90,13 +125,13 @@ class TurtleCoinWallet:
         Returns:
             str: the hash of the new address
         """
-        kwargs = {'spendSecretKey': spend_secret_key}
-        # kwargs = {'spendPublicKey': spend_public_key}
-        return self._make_request('createAddress', **kwargs)
+        params = {'spendSecretKey': spend_secret_key}
+        # params = {'spendPublicKey': spend_public_key}
+        return self._make_request('createAddress', **params)
 
     def create_address_list(self, spend_secret_keys):
-        kwargs = {'spendSecretKeys': spend_secret_keys}
-        return self._make_request('createAddressList', **kwargs)
+        params = {'spendSecretKeys': spend_secret_keys}
+        return self._make_request('createAddressList', **params)
 
     def delete_address(self, address):
         """
@@ -108,34 +143,64 @@ class TurtleCoinWallet:
         Returns:
             bool: True if successful
         """
-        kwargs = {'address': address}
-        self._make_request('deleteAddress', **kwargs)
+        params = {'address': address}
+        self._make_request('deleteAddress', **params)
         return True
 
     def get_block_hashes(self, first_block_index, block_count):
-        kwargs = {'firstBlockIndex': first_block_index,
+        params = {'firstBlockIndex': first_block_index,
                   'blockCount': block_count}
-        return self._make_request('getBlockHashes', **kwargs)
+        return self._make_request('getBlockHashes', **params)
 
     def get_transaction(self, transaction_hash):
-        kwargs = {'transactionHash': transaction_hash}
-        self._make_request('getTransaction', **kwargs)
+        """
+        Returns information about a particular transaction
+
+        Args:
+            transaction_hash (str): Hash of the requested transaction
+
+        Returns:
+            dict: information about the transaction
+
+            {'amount': -110,
+             'blockIndex': 274123,
+             'extra': '013ffd7e8481121a427a01e034cc9f4604d7b474412186ddd9fc56361dc0eafb72',
+             'fee': 10,
+             'isBase': False,
+             'paymentId': '',
+             'state': 0,
+             'timestamp': 1521641265,
+             'transactionHash': 'dc1221181e5745b9016fed2970bf002d14fe2ad8c90d7a55456d0eb459c7c2b8',
+             'transfers': [{'address': 'TRTLuxBjcKs5Ubbopcwc9N6yV62781VdDCS4ZVFupFdWBm3UZrAabVFKwc6yLWQVV3agCBxYzGQhGJsHZokixfufgxZ7EK3d33A',
+                            'amount': 100,
+                            'type': 0},
+                           {'address': 'TRTLuxqgEUr24bw6dWKEJnNHRWk8SfbpgfERJUX43Dys5xACTU22zTZBR32BFi8TavSNei6cU9ym6DPECaTrqQaaaFRgF3xKE73',
+                            'amount': 790,
+                            'type': 2},
+                           {'address': 'TRTLuxqgEUr01cw61WKfJnNHRWk7SgbpgfERJUX4WDys5xACTU123TZBR32BFi8TavSNei6cU9ym6DPECaTrqQaaaFRgF3xKE73',
+                            'amount': -900,
+                            'type': 0}],
+             'unlockTime': 0}
+        """
+        params = {'transactionHash': transaction_hash}
+        r = self._make_request('getTransaction', **params)
+        return r['transaction']
 
     def get_transactions(self, addresses, block_hash_string, block_count,
                          payment_id):
-        kwargs = {'addresses': addresses,
+        params = {'addresses': addresses,
                   'blockHashString': block_hash_string,
                   'blockCount': block_count,
                   'paymentId': payment_id}
-        self._make_request('getTransactions', **kwargs)
+        return self._make_request('getTransactions', **params)
 
     def get_transaction_hashes(self, addresses, block_hash, block_count,
                                payment_id):
-        kwargs = {'addresses': addresses,
+        params = {'addresses': addresses,
                   'blockHash': block_hash,
                   'blockCount': block_count,
                   'paymentId': payment_id}
-        return self._make_request('getTransactionHashes', **kwargs)
+        return self._make_request('getTransactionHashes', **params)
 
     def send_transaction(self, anonymity, transfers, fee=10,
                          source_addresses='', change_address='', extra='',
@@ -234,8 +299,8 @@ class TurtleCoinWallet:
                 'message': 'Transaction transfer impossible'
             }
         """
-        kwargs = {'transactionHash': transaction_hash}
-        self._make_request('sendDelayedTransaction', **kwargs)
+        params = {'transactionHash': transaction_hash}
+        self._make_request('sendDelayedTransaction', **params)
         return True
 
     def delete_delayed_transaction(self, transaction_hash):
@@ -246,8 +311,8 @@ class TurtleCoinWallet:
 
             >>> wallet.delete_delayed_transaction('8dea3....')
         """
-        kwargs = {'transactionHash': transaction_hash}
-        self._make_request('deleteDelayedTransaction', **kwargs)
+        params = {'transactionHash': transaction_hash}
+        self._make_request('deleteDelayedTransaction', **params)
         return True
 
     def send_fusion_transaction(self, threshold, anonymity, addresses,
@@ -259,17 +324,17 @@ class TurtleCoinWallet:
         Returns:
             str: hash of the sent transaction
         """
-        kwargs = {'threshold': threshold,
+        params = {'threshold': threshold,
                   'anonymity': anonymity,
                   'addresses': addresses,
                   'destinationAddress': destination_address}
-        return self._make_request('sendFusionTransaction', **kwargs)
+        return self._make_request('sendFusionTransaction', **params)
 
     def estimate_fusion(self, threshold, addresses=[]):
         """
         Counts the number of unspent outputs of the specified addresses and
         returns how many of those outputs can be optimized.
         """
-        kwargs = {'threshold': threshold,
+        params = {'threshold': threshold,
                   'addresses': addresses}
-        return self._make_request('estimateFusion', **kwargs)
+        return self._make_request('estimateFusion', **params)
