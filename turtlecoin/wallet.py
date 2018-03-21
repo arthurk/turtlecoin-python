@@ -9,9 +9,11 @@ class TurtleCoinWallet:
     """
     Integrates with Walletd RPC interface.
 
-    Run Walletd like this:
-        ./walletd -w test.wallet -p mypw --local --rpc-password test
+    Run Walletd like this::
+
+        $ walletd -w test.wallet -p mypw --local --rpc-password test
     """
+
     def __init__(self, password, host='127.0.0.1', port=8070):
         self.url = f'http://{host}:{port}/json_rpc'
         self.headers = {'content-type': 'application/json'}
@@ -56,12 +58,12 @@ class TurtleCoinWallet:
                 the balance. Must exist in this wallet.
 
         Returns:
-            dict: available balance (int) and locked amount (int)
+            dict: available balance (int) and locked amount (int)::
 
-                {
-                    'availableBalance': 1000,
-                    'lockedAmount': 0
-                }
+            {
+                'availableBalance': 1000,
+                'lockedAmount': 0
+            }
         """
         params = {'address': address}
         return self._make_request('getBalance', **params)
@@ -89,7 +91,7 @@ class TurtleCoinWallet:
             address (str): Valid and existing in this container address
 
         Returns:
-            dict: A dictionary with the secret and public spend keys
+            dict: A dictionary with the secret and public spend keys::
 
             {
                 'spendPublicKey': '3550a41b004520030941183b7f3e5ec075042cdde492044ea5064e4a1d99a3ba',
@@ -160,7 +162,7 @@ class TurtleCoinWallet:
             transaction_hash (str): Hash of the requested transaction
 
         Returns:
-            dict: information about the transaction
+            dict: information about the transaction::
 
             {'amount': -110,
              'blockIndex': 274123,
@@ -224,7 +226,8 @@ class TurtleCoinWallet:
             payment_id: can be given to receiver to identify transaction
             unlock_time (int)
 
-        Example:
+        Example::
+
             >>> wallet.send_transaction(
                 anonymity=3,
                 transfers=[
@@ -286,13 +289,11 @@ class TurtleCoinWallet:
         """
         Send a delayed transaction
 
-        Example:
+        Example::
 
             >>> wallet.send_delayed_transaction('8dea3...')
 
         Raises:
-            If the delayed tx is not valid:
-
             ValueError: {
                 'code': -32000,
                 'data': {'application_code': 15},
