@@ -1,11 +1,12 @@
 turtlecoin-python
 =================
 
+![PyPI](https://img.shields.io/pypi/v/turtlecoin.svg)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/turtlecoin.svg)
+![PyPI - License](https://img.shields.io/pypi/l/turtlecoin.svg)
 [![Documentation Status](https://readthedocs.org/projects/turtlecoin-python/badge/?version=latest)](http://turtlecoin-python.readthedocs.io/en/latest/?badge=latest)
 
-A Python wrapper for the TurtleCoin JSON-RPC interface
-
-Requires Python 3.6
+A Python wrapper for the TurtleCoin JSON-RPC API.
 
 **In development**
 
@@ -16,6 +17,8 @@ TODO:
 Installation
 ------------
 You can install the latest version from PyPI:
+
+Requires Python 3.6
 
 ```
 pip install turtlecoin
