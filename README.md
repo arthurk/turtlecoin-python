@@ -1,6 +1,8 @@
 turtlecoin-python
 =================
 
+[![Documentation Status](https://readthedocs.org/projects/turtlecoin-python/badge/?version=latest)](http://turtlecoin-python.readthedocs.io/en/latest/?badge=latest)
+
 A Python wrapper for the TurtleCoin JSON-RPC interface
 
 Requires Python 3.6
