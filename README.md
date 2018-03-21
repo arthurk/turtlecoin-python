@@ -19,6 +19,11 @@ You can install the latest version from PyPI:
 pip install turtlecoin
 ```
 
+Documentation
+-------------
+
+The documentation is available at http://turtlecoin-python.readthedocs.io
+
 Quickstart
 ----------
 
