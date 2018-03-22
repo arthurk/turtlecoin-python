@@ -37,7 +37,9 @@ class TurtleCoinD:
         Returns current chain height.
 
         Returns:
-            dict: {'count': 286373, 'status': 'OK'}
+            dict
+
+            {'count': 286373, 'status': 'OK'}
         """
         return self._make_request('getblockcount')
 
@@ -46,11 +48,11 @@ class TurtleCoinD:
         Returns blocktemplate with an empty "hole" for nonce.
 
         Args:
-            reserve_size (int)
+            reserve_size (int): 123
             wallet_address (str): a valid wallet address
 
         Returns:
-            dict
+            dict: 123
 
             {
                 'blocktemplate_blob': '0300f29a5cddd1a88f9b95.....',
@@ -59,6 +61,7 @@ class TurtleCoinD:
                 'reserved_offset': 412,
                 'status': 'OK'
             }
+
         """
         params = {'reserve_size': reserve_size,
                   'wallet_address': wallet_address}
