@@ -11,6 +11,7 @@ requests = "*"
 ipdb = "*"
 twine = "*"
 sphinx = "*"
+sphinx-rtd-theme = "*"
 
 
 [dev-packages]
