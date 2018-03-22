@@ -129,7 +129,7 @@ class TurtleCoinWallet:
         """
         params = {'spendSecretKey': spend_secret_key}
         # params = {'spendPublicKey': spend_public_key}
-        return self._make_request('createAddress', **params)
+        return self._make_request('createAddress', **params)['address']
 
     def create_address_list(self, spend_secret_keys):
         params = {'spendSecretKeys': spend_secret_keys}
@@ -204,7 +204,7 @@ class TurtleCoinWallet:
                   'paymentId': payment_id}
         return self._make_request('getTransactionHashes', **params)
 
-    def send_transaction(self, anonymity, transfers, fee=10,
+    def send_transaction(self, transfers, anonymity=3, fee=10,
                          source_addresses='', change_address='', extra='',
                          payment_id='', unlock_time=0):
         """

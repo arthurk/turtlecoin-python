@@ -1,23 +1,36 @@
-.. turtlecoin-python documentation master file, created by
-   sphinx-quickstart on Wed Mar 21 15:21:22 2018.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+turtlecoin-python
+=================
 
-Welcome to turtlecoin-python's documentation!
-=============================================
+turtlecoin-python is a Python wrapper for the TurtleCoin JSON-RPC API.
+
+
+Installation
+------------
+
+You can install the latest version with pip:
+
+.. code-block:: bash
+
+    $ pip install turtlecoin
+
+Contents
+--------
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+
+   wallet
+   quickstart
 
 
-.. module:: turtlecoin
-.. autoclass:: TurtleCoinWallet
-    :members:
+The API Documentation / Guide
+-----------------------------
 
-Indices and tables
-==================
+If you are looking for information on a specific function, class, or method,
+this part of the documentation is for you.
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. toctree::
+   :maxdepth: 2
+
+   api/wallet
+   api/daemon

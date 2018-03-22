@@ -29,8 +29,8 @@ Documentation
 
 The documentation is available at http://turtlecoin-python.readthedocs.io
 
-Quickstart
-----------
+Note
+----
 
 You need to have walletd running with rpc enabled:
 
@@ -42,44 +42,28 @@ $ ./walletd -w test.wallet -p any_password_you_want -g
 $ ./walletd -w test.wallet -p any_password_you_want --local --rpc-password test
 ```
 
-Usage
------
+Example
+----------
 
-Example for creating and deleting an address:
+A short example which shows how to transfer funds between two addresses:
 
-```python
-from turtlecoin import TurtleCoinWallet
-
-wallet = TurtleCoinWallet(password='test')
-
-address = wallet.create_address()
-
-wallet.get_balance(address)
-wallet.get_view_key()
-wallet.get_spend_keys(address)
-
-wallet.delete_address(address)
 ```
+# this is the address that was created when the wallet was generated
+sender = wallet.get_addresses()[0]
 
-Transactions
-------------
+# we create a new address in this wallet
+receiver = wallet.create_address()
 
-```python
->>> wallet = TurtleCoinWallet(password='test')
+# send 0.5 TRLT to the new address
+recipients = [{'address': receiver, 'amount': 50}]
 
-# transfer 10.00 TRTL
->>> recipients = [{'address': destination_address, 'amount': 1000}]
+# if a wallet has multiple addresses a change address needs to be set
+tx_hash = wallet.send_transaction(transfers=recipients, change_address=sender)
 
-# mixin/anonymity is 3 and fee is 0.1 TRTL
->>> wallet.send_transaction(
-    anonymity=3,
-    transfers=recipients,
-    fee=10
-)
-'aebb47d5a975f0ac0c27806b7abf9107adbd7a8a0c7c8ea91ca363eacda7f79x'
+# after a while the funds should have arrived
+print(wallet.get_balance(receiver))
+{'availableBalance': 50, 'lockedAmount': 0}
 ```
-
-Sending a transaction will return a transactionHash. You can enter the hash on the https://turtle-coin.com block explorer to see more details.
 
 Delayed Transactions
 --------------------
