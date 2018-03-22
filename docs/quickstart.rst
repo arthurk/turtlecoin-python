@@ -90,11 +90,14 @@ Now, let's get more information about our transaction:
     print(wallet.get_balance(receiver))
     {'availableBalance': 50, 'lockedAmount': 0}
 
+
 Delayed Transactions
 --------------------
 
+You can create delayed transactions too.
+
 .. code-block:: python
-    # Create a delayed transaction
+
     tx_hash = wallet.create_delayed_transaction(
         anonymity=3,
         transfers=[

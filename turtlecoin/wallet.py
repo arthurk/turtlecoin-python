@@ -263,7 +263,7 @@ class TurtleCoinWallet:
         r = self._make_request('getDelayedTransactionHashes')
         return r['transactionHashes']
 
-    def create_delayed_transaction(self, anonymity, transfers, fee=10,
+    def create_delayed_transaction(self, transfers, anonymity=3, fee=10,
                                    source_addresses='', change_address='',
                                    extra='', payment_id='', unlock_time=0):
         params = {'sourceAddresses': source_addresses,
