@@ -101,6 +101,9 @@ setup(
     #     'console_scripts': ['mycli=mymodule:cli'],
     # },
     install_requires=REQUIRED,
+    extras_require={
+        'docs': ['sphinx>=1.7', 'sphinx_rtd_theme'],
+    },
     include_package_data=True,
     license='MIT',
     classifiers=[
