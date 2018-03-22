@@ -47,7 +47,7 @@ Example
 
 A short example which shows how to transfer funds between two addresses:
 
-```
+```python
 # this is the address that was created when the wallet was generated
 sender = wallet.get_addresses()[0]
 
