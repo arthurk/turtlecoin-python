@@ -89,3 +89,25 @@ Now, let's get more information about our transaction:
     # It should have received the money (after the block has been processed, which might take a few seconds)
     print(wallet.get_balance(receiver))
     {'availableBalance': 50, 'lockedAmount': 0}
+
+Delayed Transactions
+--------------------
+
+.. code-block:: python
+    # Create a delayed transaction
+    tx_hash = wallet.create_delayed_transaction(
+        anonymity=3,
+        transfers=[
+            {
+                'address': 'TRTL...',
+                'amount': 50
+            }
+        ]
+    )
+
+    # List all delayed transactions
+    wallet.get_delayed_transaction_hashes()
+    ['bfcc4735a975f0ac0c27806b7abf9107adbd7a8a0c7c8ea91ca363eacda7f79x']
+
+    # Send delayed transaction
+    wallet.send_delayed_transaction(tx_hash)
