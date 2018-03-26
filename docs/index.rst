@@ -11,8 +11,13 @@ turtlecoin-python
 	:target: https://pypi.python.org/pypi/turtlecoin
 
 turtlecoin-python is a Python wrapper for the TurtleCoin JSON-RPC API.
-
 It supports `walletd` and `TurtleCoinD`.
+
+Requirements
+------------
+
+- Python 3.6
+- TurtleCoin 0.3.2
 
 Installation
 ------------
@@ -29,9 +34,8 @@ Contents
 .. toctree::
    :maxdepth: 2
 
-   wallet
-   quickstart
-
+   walletd
+   Turtlecoind
 
 The API Documentation / Guide
 -----------------------------
