@@ -8,35 +8,30 @@ turtlecoin-python
 
 A Python wrapper for the TurtleCoin JSON-RPC API.
 
-It integrates with `Walletd` and `TurtleCoinD`.
+It integrates with `Walletd` and `TurtleCoind` and works with TurtleCoin 0.3.x.
 
 TODO:
 
 * create_address: creating address from a spend key doesnt work
 
-Example: Transfer funds between two addresses
----------------------------------------------
+Example
+-------
 
 ```python
-# this is the address that was created when the wallet was generated
-sender = wallet.get_addresses()[0]
+wallet.get_address()
+'TRTLv1abcdef...'
 
-# we create a new address in this wallet
-receiver = wallet.create_address()
-
-# send 0.5 TRLT to the new address
-recipients = [{'address': receiver, 'amount': 50}]
-
-# if a wallet has multiple addresses a change address needs to be set
-tx_hash = wallet.send_transaction(transfers=recipients, change_address=sender)
-
-# after a while the funds should have arrived
-print(wallet.get_balance(receiver))
+wallet.get_balance()
 {'availableBalance': 50, 'lockedAmount': 0}
+
+recipients = [{'address': 'TRTLv3abcd123...', 'amount': 50}]
+wallet.send_transaction(transfers=recipients)
+'123123123...'
 ```
 
 Installation
 ------------
+
 You can install the latest version from PyPI:
 
 ```
@@ -48,24 +43,13 @@ Documentation
 
 The documentation is available at http://turtlecoin-python.readthedocs.io
 
-Note
-----
-
-You need to have walletd running with rpc enabled:
-
-```
-# generate a test wallet
-$ ./walletd -w test.wallet -p any_password_you_want -g
-
-# launch walletd with test wallet
-$ ./walletd -w test.wallet -p any_password_you_want --local --rpc-password test
-```
-
 Developer setup
 ---------------
 
 Install dependencies with pipenv:
 
 ```
+git clone ...
+cd turtlecoin-python
 pipenv install
 ```

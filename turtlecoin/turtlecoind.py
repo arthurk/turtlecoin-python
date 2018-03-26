@@ -4,7 +4,7 @@ import requests
 import json
 
 
-class TurtleCoinD:
+class TurtleCoind:
     """
     Integrates with RPC interface of ./TurtleCoind
 

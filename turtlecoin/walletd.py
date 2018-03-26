@@ -5,7 +5,7 @@ import requests
 from .utils import convert_bytes_to_hex_str
 
 
-class TurtleCoinWallet:
+class Walletd:
     """
     Integrates with Walletd RPC interface.
 
@@ -70,6 +70,12 @@ class TurtleCoinWallet:
 
     def get_status(self):
         return self._make_request('getStatus')
+
+    def get_address(self):
+        """
+        Returns the first wallet address
+        """
+        return self.get_addresses()[0]
 
     def get_addresses(self):
         return self._make_request('getAddresses')['addresses']

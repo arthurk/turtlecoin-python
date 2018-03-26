@@ -2,7 +2,7 @@
 
 import logging
 
-from turtlecoin import TurtleCoinWallet, TurtleCoinD
+from turtlecoin import Walletd, TurtleCoind
 
 logger = logging.getLogger()
 handler = logging.StreamHandler()
@@ -11,7 +11,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
 
-wallet = TurtleCoinWallet(password='test')
-daemon = TurtleCoinD()
+wallet = Walletd(password='test')
+daemon = TurtleCoind()
 
-import ipdb; ipdb.set_trace()
+wallet.get_balance()
