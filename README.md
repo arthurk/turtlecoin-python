@@ -53,3 +53,17 @@ git clone ...
 cd turtlecoin-python
 pipenv install
 ```
+
+To generate the documentation run:
+
+```
+pipenv run make html
+```
+
+To release a new version on PyPI, increment the version number
+in `turtlecoin/__version__.py` and then run:
+
+```
+pipenv run python setup.py upload
+```
+
