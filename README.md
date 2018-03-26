@@ -66,4 +66,3 @@ in `turtlecoin/__version__.py` and then run:
 ```
 pipenv run python setup.py upload
 ```
-
