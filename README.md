@@ -1,10 +1,17 @@
 turtlecoin-python
 =================
 
-![PyPI](https://img.shields.io/pypi/v/turtlecoin.svg)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/turtlecoin.svg)
-![PyPI - License](https://img.shields.io/pypi/l/turtlecoin.svg)
-[![Documentation Status](https://readthedocs.org/projects/turtlecoin-python/badge/?version=latest)](http://turtlecoin-python.readthedocs.io/en/latest/?badge=latest)
+.. image:: https://img.shields.io/pypi/v/turtlecoin.svg
+	:target: https://pypi.python.org/pypi/turtlecoin
+
+.. image:: https://img.shields.io/pypi/pyversions/turtlecoin.svg
+	:target: https://pypi.python.org/pypi/turtlecoin
+
+.. image:: https://img.shields.io/pypi/l/turtlecoin.svg
+	:target: https://pypi.python.org/pypi/turtlecoin
+
+.. image:: http://turtlecoin-python.readthedocs.io/en/latest/?badge=latest
+    :target:  https://readthedocs.org/projects/turtlecoin-python/badge/?version=latest
 
 A Python wrapper for the TurtleCoin JSON-RPC API.
 
@@ -17,26 +24,26 @@ TODO:
 Example
 -------
 
-```python
-wallet.get_address()
-'TRTLv1abcdef...'
+.. code-block:: python
 
-wallet.get_balance()
-{'availableBalance': 50, 'lockedAmount': 0}
+    wallet.get_address()
+    'TRTLv1abcdef...'
 
-recipients = [{'address': 'TRTLv3abcd123...', 'amount': 50}]
-wallet.send_transaction(transfers=recipients)
-'dc1221181e574...'
-```
+    wallet.get_balance()
+    {'availableBalance': 50, 'lockedAmount': 0}
+
+    recipients = [{'address': 'TRTLv3abcd123...', 'amount': 50}]
+    wallet.send_transaction(transfers=recipients)
+    'dc1221181e574...'
 
 Installation
 ------------
 
 You can install the latest version from PyPI:
 
-```
-pip install turtlecoin
-```
+.. code-block:: bash
+
+    $ pip install turtlecoin
 
 Documentation
 -------------
@@ -48,24 +55,24 @@ Developer setup
 
 Install dependencies with pipenv:
 
-```
-git clone ...
-cd turtlecoin-python
-pipenv install --dev
-```
+.. code-block:: bash
+
+    $ git clone ...
+    $ cd turtlecoin-python
+    $ pipenv install --dev
 
 To generate the documentation run:
 
-```
-pipenv run make html
-```
+.. code-block:: bash
+    
+    $ pipenv run make html
 
 To release a new version on PyPI, increment the version number
 in `turtlecoin/__version__.py` and run:
 
-```
-pipenv run python setup.py upload
-```
+.. code-block:: bash
+
+    $ pipenv run python setup.py upload
 
 This will also create a git tag with the version number.
 The documentation on readthedocs is automatically updated (via webhook).
