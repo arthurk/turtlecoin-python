@@ -8,11 +8,10 @@ name = "pypi"
 [packages]
 
 requests = "*"
+
+[dev-packages]
+
 ipdb = "*"
 twine = "*"
 sphinx = "*"
 sphinx-rtd-theme = "*"
-
-
-[dev-packages]
-

@@ -13,6 +13,8 @@ def generate_payment_id():
 def format_amount(amount):
     """
     Format amount into user-friendly format
+
+    For example 1000 will be 10.00
     """
     return float(amount/100)
 
@@ -20,6 +22,8 @@ def format_amount(amount):
 def parse_amount(amount):
     """
     Format amount from user-friendly format to internal representation
+
+    For example 10.00 will be 1000
     """
     return int(amount*100)
 

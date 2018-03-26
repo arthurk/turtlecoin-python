@@ -26,7 +26,7 @@ wallet.get_balance()
 
 recipients = [{'address': 'TRTLv3abcd123...', 'amount': 50}]
 wallet.send_transaction(transfers=recipients)
-'123123123...'
+'dc1221181e574...'
 ```
 
 Installation
@@ -51,7 +51,7 @@ Install dependencies with pipenv:
 ```
 git clone ...
 cd turtlecoin-python
-pipenv install
+pipenv install --dev
 ```
 
 To generate the documentation run:
@@ -61,8 +61,11 @@ pipenv run make html
 ```
 
 To release a new version on PyPI, increment the version number
-in `turtlecoin/__version__.py` and then run:
+in `turtlecoin/__version__.py` and run:
 
 ```
 pipenv run python setup.py upload
 ```
+
+This will also create a git tag with the version number.
+The documentation on readthedocs is automatically updated (via webhook).

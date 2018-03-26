@@ -29,22 +29,35 @@ the wallet address and the balance.
 
     wallet = Wallet(password='test')
     wallet.get_address()
-    'xxx'
+    'TRTLuxBjcKs5Ubbopcwc...'
     wallet.get_balance()
-    '{}'
+    {'availableBalance': 1000, 'lockedAmount': 0}
+
+Internally all amounts are represented as integers. To get the correct amount
+you have to divide it by 100. For convenience you can use the `format_amount`
+helper from the utils package:
+
+.. code-block:: python
+    from turtlecoin.utils import format_amount
+
+    balance = wallet.get_balance()
+    format_amount(balance['availableBalance'])
+    100.00
 
 Let's create a second address and transfer some funds between those
-two addresses:
+two addresses. You can use the `parse_amount` utility to convert the
+amount of TRLT into the internal integer representation:
 
 .. code-block:: python
 
     sender_address = wallet.get_address()
     receiver_address = wallet.create_address()
 
-    transfers = [{'address': receiver_address, 'amount': 500}]
+    amount = parse_amount(100.00)
+    transfers = [{'address': receiver_address, 'amount': amount}]
     tx_hash = wallet.send_transaction(transfers, change_address=sender_address)
 
     wallet.get_balance(sender_address)
-    '{...}'
+    {'availableBalance': 0, 'lockedAmount': 0}
     wallet.get_balance(receiver_address)
-    '{...}'
+    {'availableBalance': 1000, 'lockedAmount': 0}

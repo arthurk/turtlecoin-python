@@ -66,7 +66,8 @@ class Walletd:
             }
         """
         params = {'address': address}
-        return self._make_request('getBalance', **params)
+        r = self._make_request('getBalance', **params)
+        return r
 
     def get_status(self):
         return self._make_request('getStatus')
