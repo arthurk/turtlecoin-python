@@ -70,7 +70,7 @@ The documentation on readthedocs is automatically updated on
 each push to the master branch (via webhook).
 
 To release a new version on PyPI, increment the version number
-in `turtlecoin/__version__.py` and run:
+in `turtlecoin/__version__.py` and `docs/conf.py` and run:
 
 .. code-block:: bash
 
