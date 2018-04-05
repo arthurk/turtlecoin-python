@@ -15,11 +15,7 @@ turtlecoin-python
 
 A Python wrapper for the TurtleCoin JSON-RPC API.
 
-It integrates with `Walletd` and `TurtleCoind` and works with TurtleCoin 0.3.x.
-
-TODO:
-
-* create_address: creating address from a spend key doesnt work
+It integrates with `Walletd` and `TurtleCoind` and works with TurtleCoin 0.4.2.
 
 Example
 -------
