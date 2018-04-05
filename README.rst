@@ -11,7 +11,7 @@ turtlecoin-python
 	:target: https://pypi.python.org/pypi/turtlecoin
 
 .. image:: http://turtlecoin-python.readthedocs.io/en/latest/?badge=latest
-    :target:  https://readthedocs.org/projects/turtlecoin-python/badge/?version=latest
+    :target: https://readthedocs.org/projects/turtlecoin-python/badge/?version=latest
 
 A Python wrapper for the TurtleCoin JSON-RPC API.
 
