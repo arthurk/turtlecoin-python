@@ -21,11 +21,11 @@ class Walletd:
 
     def _make_request(self, method, **kwargs):
         payload = {
-            "jsonrpc": "2.0",
-            "method": method,
-            "password": self.password,
-            "id": 0,
-            "params": kwargs
+            'jsonrpc': '2.0',
+            'method': method,
+            'password': self.password,
+            'id': 0,
+            'params': kwargs
         }
         logging.debug(json.dumps(payload, indent=4))
         response = requests.post(self.url,

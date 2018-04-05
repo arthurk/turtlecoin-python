@@ -1,6 +1,8 @@
-Wallet API Reference
-====================
+.. _walletd_api:
+
+Walletd API Reference
+=====================
 
 .. module:: turtlecoin
-.. autoclass:: TurtleCoinWallet
+.. autoclass:: Walletd
     :members:

@@ -1,4 +1,5 @@
 # This script is for debugging/development
+# It initializes Wallatd and TurtleCoinD with debug logging enabled
 
 import logging
 
@@ -12,6 +13,7 @@ logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
 
 wallet = Walletd(password='test')
-daemon = TurtleCoind()
+#daemon = TurtleCoind()
+import ipdb; ipdb.set_trace()
 
-wallet.get_balance()
+#wallet.get_balance()

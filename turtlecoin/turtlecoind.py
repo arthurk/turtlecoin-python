@@ -6,23 +6,20 @@ import json
 
 class TurtleCoind:
     """
-    Integrates with RPC interface of ./TurtleCoind
-
-    Note: You have to start with blockexplorer enabled:
-
-        ./TurtleCoind --enable_blockexplorer
+    Integrates with JSON-RPC interface of `TurtleCoind`.
     """
 
-    def __init__(self, host='127.0.0.1', port=11898):
+    def __init__(self, host='127.0.0.1', port=11898, password=''):
         self.url = f'http://{host}:{port}/json_rpc'
         self.headers = {'content-type': 'application/json'}
+        self.password = password
 
     def _make_request(self, method, **kwargs):
         payload = {
-            "jsonrpc": "2.0",
-            "id": 'test',
-            "method": method,
-            "params": kwargs
+            'jsonrpc': '2.0',
+            'method': method,
+            'params': kwargs,
+            'password': self.password
         }
         logging.debug(json.dumps(payload, indent=4))
         response = requests.post(self.url,
@@ -37,7 +34,7 @@ class TurtleCoind:
         Returns current chain height.
 
         Returns:
-            dict
+            dict::
 
             {'count': 286373, 'status': 'OK'}
         """
@@ -52,16 +49,15 @@ class TurtleCoind:
             wallet_address (str): a valid wallet address
 
         Returns:
-            dict: 123
+            dict: the block template::
 
             {
-                'blocktemplate_blob': '0300f29a5cddd1a88f9b95.....',
+                'blocktemplate_blob': '0300f29a5cddd1a88f9b95...',
                 'difficulty': 273666101,
                 'height': 286393,
                 'reserved_offset': 412,
                 'status': 'OK'
             }
-
         """
         params = {'reserve_size': reserve_size,
                   'wallet_address': wallet_address}
@@ -72,7 +68,7 @@ class TurtleCoind:
         Returns last block header.
 
         Returns:
-            dict
+            dict: information about the last block header::
 
             {
                 'block_header': {
@@ -124,7 +120,7 @@ class TurtleCoind:
         Returns unique currency identifier.
 
         Returns:
-            dict
+            dict::
 
             {'currency_id_blob': '7fb97df81221dd1366051b2...'}
         """

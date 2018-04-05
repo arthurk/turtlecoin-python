@@ -1,31 +1,35 @@
+.. _turtlecoind:
+
 Turtlecoind
 ===========
 
-This document shows examples for the TurtleCoind JSON-RPC API.
+This document shows how to use the `TurtleCoind` JSON-RPC API.
 
 Running Turtlecoind
 -------------------
 
-Before you start using the Python integration, make sure that you have
-`TurtleCoind` running with the `--enable_blockexplorer` argument set::
+Before you start using the Python integration, make sure that you are
+running `TurtleCoind` with the `enable_blockexplorer` argument set:
+
+.. code-block:: bash
 
     ./TurtleCoind --enable_blockexplorer
 
-Once it's running make sure that the blockchain is synchronized.
-The console log will show an info message when it's done::
+After starting it make sure the blockchain is synchronized.
+This might take a while. The console log will show a message when it's done:
 
-    SYNCHRONIZED OK
-    You are now synchronized with the network. You may now start simplewallet.
+.. code-block:: console
 
-Now you're ready to use the Python integration.
+    Successfully synchronized with the TurtleCoin Network
+
+The python integration can now be used.
 
 Usage
 -----
 
-For all available methods see the `API documentation`.
+For all available methods see the full :ref:`API documentation <turtlecoind_api>`.
 
-Here we instanciate the Turtlecoind class and print
-the current blockchain height.
+To print the current block-height:
 
 .. code-block:: python
 

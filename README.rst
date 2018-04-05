@@ -53,7 +53,7 @@ The documentation is available at http://turtlecoin-python.readthedocs.io
 Developer setup
 ---------------
 
-Install dependencies with pipenv:
+Clone the repo and install the dependencies with ...pipenv:
 
 .. code-block:: bash
 
@@ -61,11 +61,17 @@ Install dependencies with pipenv:
     $ cd turtlecoin-python
     $ pipenv install --dev
 
-To generate the documentation run:
+To generate the HTML documentation you need to have the turtlecoin module in
+your PYTHONPATH. This is used to automatically generate the api docs.
+Afterwards you can run the makefile target:
 
 .. code-block:: bash
-    
+
+    $ pipenv run python setup.py develop
     $ pipenv run make html
+
+The documentation on readthedocs is automatically updated on
+each push to the master branch (via webhook).
 
 To release a new version on PyPI, increment the version number
 in `turtlecoin/__version__.py` and run:
@@ -75,4 +81,3 @@ in `turtlecoin/__version__.py` and run:
     $ pipenv run python setup.py upload
 
 This will also create a git tag with the version number.
-The documentation on readthedocs is automatically updated (via webhook).

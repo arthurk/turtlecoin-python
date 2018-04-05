@@ -1,27 +1,33 @@
+.. _walletd:
+
 Walletd
 =======
 
-This document shows a few examples for the Walletd JSON-RPC API,
-for the full API documentation head over to `xxx`.
+This document shows examples for the `walletd` JSON-RPC API.
 
 Before you start using the Python integration, make sure that you have
-`walletd` running with the `--rpc-password` argument set::
+`walletd` running with the `rpc-password` argument set:
+
+.. code-block:: bash
 
     ./walletd -w test.wallet -p my_wallet_password --local --rpc-password test
 
 Once it's running make sure that the blockchain is synchronized. The console log will
-show an info message when it's done::
+show an info message when it's done:
 
-    SYNCHRONIZED OK
-    You are now synchronized with the network. You may now start simplewallet.
+.. code-block:: console
 
-Now you're ready to use the Python integration.
+    Wallet loading is finished.
+
+The python integration can now be used.
 
 Usage
 -----
 
-Let's start by instanciating the Walletd class, and printing
-the wallet address and the balance.
+For all available methods see the full :ref:`API documentation <walletd_api>`.
+
+Let's start by instantiating the Walletd class and printing the wallet
+address as well as the balance.
 
 .. code-block:: python
 
@@ -38,15 +44,17 @@ you have to divide it by 100. For convenience you can use the `format_amount`
 helper from the utils package:
 
 .. code-block:: python
+
     from turtlecoin.utils import format_amount
 
     balance = wallet.get_balance()
     format_amount(balance['availableBalance'])
     100.00
 
-Let's create a second address and transfer some funds between those
-two addresses. You can use the `parse_amount` utility to convert the
-amount of TRLT into the internal integer representation:
+Let's create a second address and transfer some funds to it.
+You can either multiply the value by 100 or use the `parse_amount`
+utility to convert the amount of TRLT into the internal integer
+representation:
 
 .. code-block:: python
 

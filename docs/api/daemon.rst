@@ -1,6 +1,8 @@
-Daemon API Reference
-====================
+.. _turtlecoind_api:
+
+Turtlecoind API Reference
+=========================
 
 .. module:: turtlecoin
-.. autoclass:: TurtleCoinD
+.. autoclass:: TurtleCoind
     :members:
