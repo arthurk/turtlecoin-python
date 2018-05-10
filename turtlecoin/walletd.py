@@ -346,3 +346,16 @@ class Walletd:
         params = {'threshold': threshold,
                   'addresses': addresses}
         return self._make_request('estimateFusion', **params)
+
+    def get_mnemonic_seed(self, address):
+        """
+        Returns the mnemonic seed for the given address
+
+        Args:
+            address (str): Valid and existing in this container address
+
+        Returns:
+            str: mnemonic seed
+        """
+        params = {'address': address}
+        return self._make_request('getMnemonicSeed', **params)
