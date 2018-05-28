@@ -22,15 +22,16 @@ Example
 
 .. code-block:: python
 
-    wallet.get_address()
+    wallet.get_addresses()
     'TRTLv1abcdef...'
+    {'id': 0, 'jsonrpc': '2.0', 'result': {'addresses': ['TRTLv2R....']}}
 
     wallet.get_balance()
-    {'availableBalance': 50, 'lockedAmount': 0}
+    {'id': 0, 'jsonrpc': '2.0', 'result': {'availableBalance': 50, 'lockedAmount': 0}}
 
     recipients = [{'address': 'TRTLv3abcd123...', 'amount': 50}]
     wallet.send_transaction(transfers=recipients)
-    'dc1221181e574...'
+    {'id': 0, 'jsonrpc': '2.0', 'result': {'transactionHash': 'ae57e...'}}
 
 Installation
 ------------

@@ -13,11 +13,16 @@ turtlecoin-python
 turtlecoin-python is a Python wrapper for the TurtleCoin JSON-RPC API.
 It integrates with :ref:`walletd` and :ref:`turtlecoind`.
 
+Source Code
+-----------
+
+You can find the source code at GitHub: https://github.com/arthurk/turtlecoin-python
+
 Requirements
 ------------
 
 - Python 3.6
-- `TurtleCoin 0.4.2 <https://github.com/turtlecoin/turtlecoin/releases/tag/v0.4.2>`_
+- `TurtleCoin 0.5.0 <https://github.com/turtlecoin/turtlecoin/releases/tag/v0.5.0>`_
 
 Installation
 ------------
