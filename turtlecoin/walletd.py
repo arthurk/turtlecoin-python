@@ -33,7 +33,7 @@ class Walletd:
                                  headers=self.headers).json()
         if 'error' in response:
             raise ValueError(response['error'])
-        return response['result']
+        return response
 
     def save(self):
         """
@@ -72,14 +72,8 @@ class Walletd:
     def get_status(self):
         return self._make_request('getStatus')
 
-    def get_address(self):
-        """
-        Returns the first wallet address
-        """
-        return self.get_addresses()[0]
-
     def get_addresses(self):
-        return self._make_request('getAddresses')['addresses']
+        return self._make_request('getAddresses')
 
     def get_view_key(self):
         """
@@ -88,7 +82,7 @@ class Walletd:
         Returns:
             str: Private view key
         """
-        return self._make_request('getViewKey')['viewSecretKey']
+        return self._make_request('getViewKey')
 
     def get_spend_keys(self, address):
         """
@@ -121,7 +115,7 @@ class Walletd:
         """
         params = {'addresses': addresses}
         r = self._make_request('getUnconfirmedTransactionHashes', **params)
-        return r['transactionHashes']
+        return r
 
     def create_address(self, spend_secret_key='', spend_public_key=''):
         """
@@ -136,7 +130,7 @@ class Walletd:
         """
         params = {'spendSecretKey': spend_secret_key}
         # params = {'spendPublicKey': spend_public_key}
-        return self._make_request('createAddress', **params)['address']
+        return self._make_request('createAddress', **params)
 
     def create_address_list(self, spend_secret_keys):
         params = {'spendSecretKeys': spend_secret_keys}
@@ -193,7 +187,7 @@ class Walletd:
         """
         params = {'transactionHash': transaction_hash}
         r = self._make_request('getTransaction', **params)
-        return r['transaction']
+        return r
 
     def get_transactions(self, addresses, block_hash_string, block_count,
                          payment_id):
@@ -261,14 +255,14 @@ class Walletd:
             params['extra'] = convert_bytes_to_hex_str(extra)
 
         r = self._make_request('sendTransaction', **params)
-        return r['transactionHash']
+        return r
 
     def get_delayed_transaction_hashes(self):
         """
         Returns a list of delayed transaction hashes
         """
         r = self._make_request('getDelayedTransactionHashes')
-        return r['transactionHashes']
+        return r
 
     def create_delayed_transaction(self, transfers, anonymity=3, fee=10,
                                    source_addresses='', change_address='',
@@ -290,7 +284,7 @@ class Walletd:
             params['extra'] = convert_bytes_to_hex_str(extra)
 
         r = self._make_request('createDelayedTransaction', **params)
-        return r['transactionHash']
+        return r
 
     def send_delayed_transaction(self, transaction_hash):
         """

@@ -15,7 +15,7 @@ turtlecoin-python
 
 A Python wrapper for the TurtleCoin JSON-RPC API.
 
-It integrates with `Walletd` and `TurtleCoind` and works with TurtleCoin 0.4.2.
+It integrates with `Walletd` and `TurtleCoind` and works with TurtleCoin 0.5.0.
 
 Example
 -------
@@ -70,7 +70,7 @@ The documentation on readthedocs is automatically updated on
 each push to the master branch (via webhook).
 
 To release a new version on PyPI, increment the version number
-in `turtlecoin/__version__.py` and `docs/conf.py` and run:
+in `turtlecoin/__version__.py` and run:
 
 .. code-block:: bash
 

@@ -26,6 +26,9 @@ Usage
 
 For all available methods see the full :ref:`API documentation <walletd_api>`.
 
+Each response has the following format: `{'id': 0, 'jsonrpc': '2.0', 'result': ...}`.
+In all examples below only the `result` is included.
+
 Let's start by instantiating the Walletd class and printing the wallet
 address as well as the balance.
 

@@ -4,6 +4,9 @@ Quickstart
 Begin by connecting to the walletd rpc interface and showing
 the available public addresses:
 
+Each response has the following format: `{'id': 0, 'jsonrpc': '2.0', 'result': ...}`.
+In all examples below only the `result` is included.
+
 .. code-block:: python
 
     from turtlecoin import Wallet
