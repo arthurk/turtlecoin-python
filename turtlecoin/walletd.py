@@ -35,6 +35,20 @@ class Walletd:
             raise ValueError(response['error'])
         return response
 
+    def reset(self, view_secret_key):
+        """
+        Re-syncs the wallet
+
+        Note:
+            If the view_secret_key parameter is not specified, the reset() method resets the 
+            wallet and re-syncs it. If the view_secret_key argument is specified, reset() 
+            method substitutes the existing wallet with a new one with a specified
+            view_secret_key and creates an address for it.
+            
+        """
+        params = {'viewSecretKey': view_secret_key}
+        return self._make_request('reset', **params)
+    
     def save(self):
         """
         Save the wallet
