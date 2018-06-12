@@ -189,10 +189,10 @@ class Walletd:
         r = self._make_request('getTransaction', **params)
         return r
 
-    def get_transactions(self, addresses, block_hash_string, block_count,
+    def get_transactions(self, addresses, block_hash, block_count,
                          payment_id):
         params = {'addresses': addresses,
-                  'blockHashString': block_hash_string,
+                  'blockHash': block_hash,
                   'blockCount': block_count,
                   'paymentId': payment_id}
         return self._make_request('getTransactions', **params)
