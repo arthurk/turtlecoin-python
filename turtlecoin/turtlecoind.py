@@ -29,7 +29,7 @@ class TurtleCoind:
             raise ValueError(response['error'])
         return response['result']
 
-    def getblockcount(self):
+    def get_block_count(self):
         """
         Returns current chain height.
 
@@ -40,7 +40,7 @@ class TurtleCoind:
         """
         return self._make_request('getblockcount')
 
-    def getblocktemplate(self, reserve_size, wallet_address):
+    def get_block_template(self, reserve_size, wallet_address):
         """
         Returns blocktemplate with an empty "hole" for nonce.
 
@@ -63,7 +63,7 @@ class TurtleCoind:
                   'wallet_address': wallet_address}
         return self._make_request('getblocktemplate', **params)
 
-    def getlastblockheader(self):
+    def get_last_block_header(self):
         """
         Returns last block header.
 
@@ -89,7 +89,7 @@ class TurtleCoind:
         """
         return self._make_request('getlastblockheader')
 
-    def getlastblockheaderbyhash(self, hash):
+    def get_block_header_by_hash(self, hash):
         """
         Returns last block header by given hash.
 
@@ -100,9 +100,9 @@ class TurtleCoind:
             dict: See getlastblockheader
         """
         params = {'hash': hash}
-        return self._make_request('getlastblockheader', **params)
+        return self._make_request('getblockheaderbyhash', **params)
 
-    def getlastblockheaderbyheight(self, height):
+    def get_block_header_by_height(self, height):
         """
         Returns last block header by given hash.
 
@@ -113,9 +113,9 @@ class TurtleCoind:
             dict: See getlastblockheader
         """
         params = {'height': height}
-        return self._make_request('getlastblockheader', **params)
+        return self._make_request('getblockheaderbyheight', **params)
 
-    def getcurrencyid(self):
+    def get_currency_id(self):
         """
         Returns unique currency identifier.
 
