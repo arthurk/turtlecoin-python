@@ -39,6 +39,20 @@ class TurtleCoind:
             {'count': 286373, 'status': 'OK'}
         """
         return self._make_request('getblockcount')
+    
+    def get_block_hash(self, block_hash):
+        payload = {
+            'jsonrpc': '2.0',
+            'method': 'on_getblockhash',
+            'params': [block_hash],
+            'password': self.password
+        }
+        response = requests.post(self.url,
+                                 data=json.dumps(payload),
+                                 headers=self.headers).json()
+        if 'error' in response:
+            raise ValueError(response['error'])
+        return response['result']
 
     def get_block_template(self, reserve_size, wallet_address):
         """
@@ -62,6 +76,20 @@ class TurtleCoind:
         params = {'reserve_size': reserve_size,
                   'wallet_address': wallet_address}
         return self._make_request('getblocktemplate', **params)
+    
+    def submit_block(self, block_blob):
+        payload = {
+            'jsonrpc': '2.0',
+            'method': 'submitblock',
+            'params': [block_blob],
+            'password': self.password
+        }
+        response = requests.post(self.url,
+                                 data=json.dumps(payload),
+                                 headers=self.headers).json()
+        if 'error' in response:
+            raise ValueError(response['error'])
+        return response['result']
 
     def get_last_block_header(self):
         """
