@@ -134,9 +134,13 @@ class TurtleCoind:
     #     params = {'height': height}
     #     return self._make_request('f_blocks_list_json', **params)
 
-    # def f_block_json(self, block_hash):
-    #     params = {'hash': block_hash}
-    #     return self._make_request('f_block_json', **params)
+    def get_block(self, block_hash):
+        params = {'hash': block_hash}
+        return self._make_request('f_block_json', **params)
+    
+    def get_transaction(self, transaction_hash):
+        params = {'hash' : transaction_hash}
+        return self._make_request('f_transaction_json', **params)
 
     # def f_on_transactions_pool_json(self):
     #     return self._make_request('f_on_transactions_pool_json')
