@@ -27,20 +27,54 @@ class TurtleCoind:
                                  headers=self.headers).json()
         if 'error' in response:
             raise ValueError(response['error'])
-        return response['result']
+        return response
 
-    def getblockcount(self):
+    def get_block_count(self):
         """
         Returns current chain height.
 
         Returns:
             dict::
 
-            {'count': 286373, 'status': 'OK'}
+            {
+                "jsonrpc":"2.0",
+                "result":{
+                    "count":560915,
+                    "status":"OK"
+                }
+            }
         """
         return self._make_request('getblockcount')
+    
+    def get_block_hash(self, block_hash):
+        """
+        Returns block hash for a given height off by one
+        
+        Args:
+            height : 123456
+            
+        Returns:
+            dict:: result
+            
+            {
+                "jsonrpc": "2.0",
+                "result": "4bd7dd9649a006660e113efe49691e0739d9838d044774f18732111b145347c8"
+            }
+        """
+        payload = {
+            'jsonrpc': '2.0',
+            'method': 'on_getblockhash',
+            'params': [block_hash],
+            'password': self.password
+        }
+        response = requests.post(self.url,
+                                 data=json.dumps(payload),
+                                 headers=self.headers).json()
+        if 'error' in response:
+            raise ValueError(response['error'])
+        return response
 
-    def getblocktemplate(self, reserve_size, wallet_address):
+    def get_block_template(self, reserve_size, wallet_address):
         """
         Returns blocktemplate with an empty "hole" for nonce.
 
@@ -52,18 +86,48 @@ class TurtleCoind:
             dict: the block template::
 
             {
-                'blocktemplate_blob': '0300f29a5cddd1a88f9b95...',
-                'difficulty': 273666101,
-                'height': 286393,
-                'reserved_offset': 412,
-                'status': 'OK'
+                "blocktemplate_blob": "0300f29a5cddd1a88f9b95...",
+                "difficulty": 273666101,
+                "height": 286393,
+                "reserved_offset": 412,
+                "status": "OK"
             }
         """
         params = {'reserve_size': reserve_size,
                   'wallet_address': wallet_address}
         return self._make_request('getblocktemplate', **params)
+    
+    def submit_block(self, block_blob):
+        """
+        Submits a block
+        
+        Args:
+            block_blob (str) : a valid block blob ...
+        
+        Returns:
+            dict::
+            
+            {
+                "jsonrpc": "2.0"
+                "result": {
+                    "status": "OK"
+                }
+            }
+        """
+        payload = {
+            'jsonrpc': '2.0',
+            'method': 'submitblock',
+            'params': [block_blob],
+            'password': self.password
+        }
+        response = requests.post(self.url,
+                                 data=json.dumps(payload),
+                                 headers=self.headers).json()
+        if 'error' in response:
+            raise ValueError(response['error'])
+        return response
 
-    def getlastblockheader(self):
+    def get_last_block_header(self):
         """
         Returns last block header.
 
@@ -89,7 +153,7 @@ class TurtleCoind:
         """
         return self._make_request('getlastblockheader')
 
-    def getlastblockheaderbyhash(self, hash):
+    def get_block_header_by_hash(self, hash):
         """
         Returns last block header by given hash.
 
@@ -100,9 +164,9 @@ class TurtleCoind:
             dict: See getlastblockheader
         """
         params = {'hash': hash}
-        return self._make_request('getlastblockheader', **params)
+        return self._make_request('getblockheaderbyhash', **params)
 
-    def getlastblockheaderbyheight(self, height):
+    def get_block_header_by_height(self, height):
         """
         Returns last block header by given hash.
 
@@ -113,9 +177,9 @@ class TurtleCoind:
             dict: See getlastblockheader
         """
         params = {'height': height}
-        return self._make_request('getlastblockheader', **params)
+        return self._make_request('getblockheaderbyheight', **params)
 
-    def getcurrencyid(self):
+    def get_currency_id(self):
         """
         Returns unique currency identifier.
 
@@ -126,17 +190,165 @@ class TurtleCoind:
         """
         return self._make_request('getcurrencyid')
 
-    # def f_transaction_json(self, tx_hash):
-    #     params = {'hash': tx_hash}
-    #     return self._make_request('f_transaction_json', **params)
+    def get_blocks(self, height):
+        """
+        Returns information on the last 30 blocks before height (inclusive)
+        
+        Args:
+            height: the height of the blockchain to start at
+            
+        Returns:
+            dict::
+            
+            {
+                "jsonrpc": "2.0",
+                "result": {
+                    'blocks':[
+                        {
+                            "cumul_size": 22041,
+                            "difficulty": 285124963,
+                            "hash": "62f0058453292af5e1aa070f8526f7642ab6974c6af2c17088c21b31679c813d",
+                            "height": 500000,
+                            "timestamp": 1527834137,
+                            "tx_count": 4
+                        },
+                        .....,
+                        .....,
+                    ],
+                    "status": "OK"
+                }
+            }
+        """
+        params = {'height': height}
+        return self._make_request('f_blocks_list_json', **params)
 
-    # def f_blocks_list_json(self, height):
-    #     params = {'height': height}
-    #     return self._make_request('f_blocks_list_json', **params)
+    def get_block(self, block_hash):
+        """
+        Returns information on a single block
+        
+        Args:
+            block_hash: Block hash of the block you wish to retrieve
+            
+        Returns:
+            dict::
+            
+            {
+                "block": {
+                    "alreadyGeneratedCoins": "1484230931125",
+                    "alreadyGeneratedTransactions": 974921,
+                    "baseReward": 2935998,
+                    "blockSize": 48846,
+                    "depth": 0,
+                    "difficulty": 358164537,
+                    "effectiveSizeMedian": 100000,
+                    "hash": "f11580d74134ac34673c74f8da458080aacbe1eccea05b197e9d10bde05139f5",
+                    "height": 501854,
+                    "major_version": 4,
+                    "minor_version": 0,
+                    "nonce": 214748383,
+                    "orphan_status": false,
+                    "penalty": 0,
+                    "prev_hash": "674046ea53a8673c630bd34655c4723199e69fdcfd518503f4c714e16a7121b5",
+                    "reward": 2936608,
+                    "sizeMedian": 231,
+                    "timestamp": 1527891820,
+                    "totalFeeAmount": 610,
+                    "transactions": [
+                        {
+                            "amount_out": 2936608,
+                            "fee": 0,
+                            "hash": "61b29d7a3fe931928388f14cffb5e705a68db219e1df6b4e15aee39d1c2a16e8",
+                            "size": 266
+                        },
+                        .....,
+                        .....,
+                    ],
+                    "transactionsCumulativeSize": 48535
+                },
+                "status": "OK"
+            }
+        """
+        params = {'hash': block_hash}
+        return self._make_request('f_block_json', **params)
+    
+    def get_transaction(self, transaction_hash):
+        """
+        Gets information on the single transaction
+        
+        Args:
+            transaction_hash: (str) The transaction hash
+            
+        Returns:
+            dict::
+            
+            {
+                "block": {
+                    "cumul_size": 22041,
+                    "difficulty": 103205633,
+                    "hash": "62f0058453292af5e1aa070f8526f7642ab6974c6af2c17088c21b31679c813d",
+                    "height": 500000,
+                    "timestamp": 1527834137,
+                    "tx_count": 4
+                },
+                "status": "OK",
+                "tx": {
+                    "extra": "019e430ecdd501714900c71cb45fd49b4fa77ebd4a68d967cc2419ccd4e72378e3020800000000956710b6",
+                    "unlock_time": 500040,
+                    "version": 1,
+                    "vin": [
+                        {
+                            "type": "ff",
+                            "value": {
+                                "height": 500000
+                            }
+                        }
+                    ],
+                    "vout": [
+                        {
+                            "amount": 80,
+                            "target": {
+                                "data": {
+                                    "key": "5ce69a87940df7ae8443261ff610861d2e4207a7556ef1aa35878c0a5e7e382d"
+                                },
+                            "type": "02"
+                            }
+                        },
+                        .....,
+                        .....,
+                    ]
+                },
+                "txDetails": {
+                    "amount_out": 2936280,
+                    "fee": 0,
+                    "hash": "702ad5bd04b9eff14b080d508f69a320da1909e989d6c163c18f80ae7a5ab832",
+                    "mixin": 0,
+                    "paymentId": "",
+                    "size": 266
+                }
+            }
+        """
+        params = {'hash' : transaction_hash}
+        return self._make_request('f_transaction_json', **params)
 
-    # def f_block_json(self, block_hash):
-    #     params = {'hash': block_hash}
-    #     return self._make_request('f_block_json', **params)
-
-    # def f_on_transactions_pool_json(self):
-    #     return self._make_request('f_on_transactions_pool_json')
+    def get_transaction_pool(self):
+        """
+        Gets the list of transaction hashs in the mempool.
+        
+        Returns:
+            dict::
+            
+            {
+                "jsonrpc": "2.0"
+                "transactions": [
+                    {
+                        "amount_out": 1660000,
+                        "fee": 0,
+                        "hash": "721ae50994d5446d5683ca79d6fa97dce321a39e88e1df70ae433dc67573841b",
+                        "size": 13046
+                    },
+                    .....,
+                    .....,
+                ]
+            }
+        """
+        return self._make_request('f_on_transactions_pool_json')
