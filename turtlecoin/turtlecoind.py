@@ -27,7 +27,7 @@ class TurtleCoind:
                                  headers=self.headers).json()
         if 'error' in response:
             raise ValueError(response['error'])
-        return response['result']
+        return response
 
     def get_block_count(self):
         """
@@ -36,7 +36,13 @@ class TurtleCoind:
         Returns:
             dict::
 
-            {'count': 286373, 'status': 'OK'}
+            {
+                "jsonrpc":"2.0",
+                "result":{
+                    "count":560915,
+                    "status":"OK"
+                }
+            }
         """
         return self._make_request('getblockcount')
     
