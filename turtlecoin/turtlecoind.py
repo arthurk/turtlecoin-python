@@ -215,7 +215,8 @@ class TurtleCoind:
                         .....,
                         .....,
                     ],
-                "status": "OK"
+                    "status": "OK"
+                }
             }
         """
         params = {'height': height}
