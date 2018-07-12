@@ -367,3 +367,18 @@ class Walletd:
         """
         params = {'address': address}
         return self._make_request('getMnemonicSeed', **params)
+
+    def create_integrated_address(self, address, payment_id):
+        """
+        Creates a unique 236 char long address which corresponds to given
+        address and paymentID
+
+        Args:
+            address (str): valid TRTL address
+            payment_id (str): valid payment id
+
+        Returns:
+            str: integrated address
+        """
+        params = {'address': address,'paymentId': payment_id}
+        return self._make_request('createIntegratedAddress', **params)

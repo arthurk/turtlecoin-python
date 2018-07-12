@@ -9,25 +9,128 @@ class TurtleCoind:
     Integrates with JSON-RPC interface of `TurtleCoind`.
     """
 
-    def __init__(self, host='127.0.0.1', port=11898, password=''):
-        self.url = f'http://{host}:{port}/json_rpc'
+    def __init__(self, host='127.0.0.1', port=11898):
+        self.url = f'http://{host}:{port}'
         self.headers = {'content-type': 'application/json'}
-        self.password = password
 
     def _make_request(self, method, **kwargs):
+        post_url = self.url +'/json_rpc'
         payload = {
             'jsonrpc': '2.0',
             'method': method,
             'params': kwargs,
-            'password': self.password
         }
         logging.debug(json.dumps(payload, indent=4))
-        response = requests.post(self.url,
+        response = requests.post(post_url,
                                  data=json.dumps(payload),
                                  headers=self.headers).json()
         if 'error' in response:
             raise ValueError(response['error'])
         return response
+
+    def _make_get_request(self, method):
+        get_url = self.url + '/' + method
+        print(get_url)
+        response = requests.get(get_url)
+        return response.json()
+
+    def get_height(self):
+        """
+        Returns current chain height
+
+        Returns:
+            dict::
+
+                {
+                    'height': 613945,
+                    'network_height': 613945,
+                    'status': 'OK'
+                }
+        """
+        return self._make_get_request('getheight')
+
+    def get_info(self):
+        """
+        Returns information of network and connection
+
+        Returns:
+            dict::
+                {
+                    'alt_blocks_count': 7,
+                    'difficulty': 162204943,
+                    'grey_peerlist_size': 736,
+                    'hashrate': 5406831,
+                    'height': 613945,
+                    'incoming_connections_count': 0,
+                    'last_known_block_index': 613942,
+                    'major_version': 4,
+                    'minor_version': 0,
+                    'network_height': 613945,
+                    'outgoing_connections_count': 8,
+                    'start_time': 1531374018,
+                    'status': 'OK',
+                    'supported_height': 620000,
+                    'synced': True,
+                    'testnet': False,
+                    'tx_count': 719763,
+                    'tx_pool_size': 0,
+                    'upgrade_heights': [
+                        187000,
+                        350000,
+                        440000,
+                        620000,
+                        ...
+                    ],
+                    'version': '0.6.4',
+                    'white_peerlist_size': 52
+                }
+        """
+        return self._make_get_request('getinfo')
+
+    def get_transactions(self):
+        """
+        Returns array of missed transactions
+
+        Returns:
+            dict::
+                {
+                    'missed_tx': [],
+                    'status': 'OK',
+                    'txs_as_hex': []
+                }
+        """
+        return self._make_get_request('gettransactions')
+
+    def get_peers(self):
+        """
+        Returns array of peers connected to the daemon
+
+        Returns:
+            dict::
+                {
+                    'peers': [
+                        142.44.212.51:11897,
+                        45.55.33.219:11897.
+                        ...
+                    ],
+                    'status': 'OK
+                }
+        """
+        return self._make_get_request('getpeers')
+
+    def get_fee_info(self):
+        """
+        Returns information on fee set by remote node
+
+        Returns:
+            dict::
+                {
+                    'address': '',
+                    'amount': 0,
+                    'status': "Node's fee address is not set"
+                }
+        """
+        return self._make_get_request('feeinfo')
 
     def get_block_count(self):
         """
@@ -64,8 +167,7 @@ class TurtleCoind:
         payload = {
             'jsonrpc': '2.0',
             'method': 'on_getblockhash',
-            'params': [block_hash],
-            'password': self.password
+            'params': [block_hash]
         }
         response = requests.post(self.url,
                                  data=json.dumps(payload),
@@ -117,8 +219,7 @@ class TurtleCoind:
         payload = {
             'jsonrpc': '2.0',
             'method': 'submitblock',
-            'params': [block_blob],
-            'password': self.password
+            'params': [block_blob]
         }
         response = requests.post(self.url,
                                  data=json.dumps(payload),
