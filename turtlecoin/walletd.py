@@ -220,7 +220,7 @@ class Walletd:
         return self._make_request('getTransactionHashes', **params)
 
     def send_transaction(self, transfers, anonymity=3, fee=10,
-                         source_addresses='', change_address='', extra='',
+                         addresses='', change_address='', extra='',
                          payment_id='', unlock_time=0):
         """
         Send a transaction to one or multiple addresses.
@@ -252,7 +252,7 @@ class Walletd:
             )
             {'transactionHash': '1b87a........'}
         """
-        params = {'sourceAddresses': source_addresses,
+        params = {'addresses': addresses,
                   'transfers': transfers,
                   'changeAddress': change_address,
                   'fee': fee,
@@ -264,7 +264,7 @@ class Walletd:
         if payment_id and extra:
             raise ValueError('payment_id and extra cannot be set together')
         elif payment_id:
-            params['payment_id'] = payment_id
+            params['paymentId'] = payment_id
         elif extra:
             params['extra'] = convert_bytes_to_hex_str(extra)
 
@@ -279,9 +279,9 @@ class Walletd:
         return r
 
     def create_delayed_transaction(self, transfers, anonymity=3, fee=10,
-                                   source_addresses='', change_address='',
+                                   addresses='', change_address='',
                                    extra='', payment_id='', unlock_time=0):
-        params = {'sourceAddresses': source_addresses,
+        params = {'addresses': addresses,
                   'transfers': transfers,
                   'changeAddress': change_address,
                   'fee': fee,
@@ -293,7 +293,7 @@ class Walletd:
         if payment_id and extra:
             raise ValueError('payment_id and extra cannot be set together')
         elif payment_id:
-            params['payment_id'] = payment_id
+            params['paymentId'] = payment_id
         elif extra:
             params['extra'] = convert_bytes_to_hex_str(extra)
 
