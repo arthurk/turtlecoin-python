@@ -382,3 +382,18 @@ class Walletd:
         """
         params = {'address': address,'paymentId': payment_id}
         return self._make_request('createIntegratedAddress', **params)
+
+    def feeinfo(self):
+        """
+        Gets the fee address and amount (if any) from the node that the
+        turtle-service instance is currently connected to. This fee will be
+        automatically sent to the address on every sendTransaction() and
+        sendDelayedTransaction() request. Note that it does not apply to
+        sendFusionTransaction().
+
+        Returns:
+            str: address
+            int: amount
+        """
+
+        return self._make_request('feeinfo')
