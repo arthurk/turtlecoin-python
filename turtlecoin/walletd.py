@@ -383,7 +383,7 @@ class Walletd:
         params = {'address': address,'paymentId': payment_id}
         return self._make_request('createIntegratedAddress', **params)
 
-    def feeinfo(self):
+    def get_fee_info(self):
         """
         Gets the fee address and amount (if any) from the node that the
         turtle-service instance is currently connected to. This fee will be
@@ -396,4 +396,4 @@ class Walletd:
             int: amount
         """
 
-        return self._make_request('feeinfo')
+        return self._make_request('getFeeInfo')
